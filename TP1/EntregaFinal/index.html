@@ -4,13 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trabajo practico 1 - Pedro Chatelain</title>
-    <!-- <link rel="stylesheet" href="stylesheet.css"> -->
+    <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
     <canvas class="js-my-canvas my-canvas" width="800px" height="600px"> </canvas>
-    <input class="js-color-picker" type="color" value="#000000"/>
-    <input type="range" class="js-line-range" min="1" max="72" value="1">
-    <label class="js-range-value">1</label>Px
+    <div class="tool-bar">
+        <p>Lapiz</p>
+        <button class="tool-button">
+            <img src="penIcon.png" alt="" srcset="">
+        </button>
+        <p>Color</p>
+        <input class="js-color-picker color-picker tool-button" type="color" value="#aa33ae"/>
+        <p>Goma</p>
+        <button class="tool-button">
+            <img src="eraserIcon.png" alt="" srcset="">
+        </button>
+        <p id="tool-size">Size (<span>1</span> px)</p>
+        <div class="tool-size">
+            <input type="range" class="js-line-range" min="1" max="72" value="1">
+            <label class="js-range-value"></label> 
+        </div>
+    </div>
     <script src="tp1.js"></script>
 </body>
 </html>

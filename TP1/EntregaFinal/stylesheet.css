@@ -1,0 +1,39 @@
+.my-canvas {
+    border: 1px solid black;
+}
+
+* {
+    cursor: crosshair;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.color-picker {
+    width: 45px;
+    height: 35px;
+}
+
+.tool-bar {
+    margin-left: 10%;
+    justify-items: center;
+    align-items: center;
+    border: 1px solid black;
+    width: 60%;
+    height: 40%;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr 2fr;
+    padding-left: 1%;
+    padding-top: 1%;
+}
+
+.tool-button, .tool-size {
+    justify-self: start;
+}
+
+label {
+    align-self: center;
+}

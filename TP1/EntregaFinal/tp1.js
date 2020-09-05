@@ -6,9 +6,7 @@ function setUpCanvas() {
     let coordenadasActuales = {};
     let canvas = document.querySelector(".js-my-canvas");
     let context = canvas.getContext("2d");
-    let lineWidthRange = document.querySelector( '.js-line-range' );
-    let lineWidthLabel = document.querySelector( '.js-range-value' );
-    
+    let lineWidthRange = document.querySelector( '.js-line-range' );    
     
     // Event will be a click event which can be retrieved as first parameter in the addEventListener(function(event){}); or in jQuery with $("selector").click(function(event){});
     function getPosition(event){
@@ -53,7 +51,7 @@ function setUpCanvas() {
     
     lineWidthRange.addEventListener( 'input', event => {
         let width = event.target.value;
-        lineWidthLabel.innerHTML = width;
+        document.querySelector("#tool-size").querySelector("span").innerHTML = width;
         context.lineWidth = width;
     } );
     
