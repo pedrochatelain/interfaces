@@ -9,19 +9,19 @@
 <body>
     <canvas class="js-my-canvas my-canvas" width="800px" height="600px"> </canvas>
     <div class="tool-bar">
-        <p>Lapiz</p>
-        <button class="tool-button">
+        <p>Lápiz</p>
+        <button class="js-lapiz tool-button pressed-button">
             <img src="penIcon.png" alt="" srcset="">
         </button>
         <p>Color</p>
-        <input class="js-color-picker color-picker tool-button" type="color" value="#aa33ae"/>
+        <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
         <p>Goma</p>
-        <button class="tool-button">
+        <button class="tool-button js-goma">
             <img src="eraserIcon.png" alt="" srcset="">
         </button>
-        <p id="tool-size">Size (<span>1</span> px)</p>
+        <p id="size-of-tool">Size (<span>1</span> px)</p>
         <div class="tool-size">
-            <input type="range" class="js-line-range" min="1" max="72" value="1">
+            <input type="range" class="js-line-range" min="1" max="80" value="1">
             <label class="js-range-value"></label> 
         </div>
     </div>

@@ -1,8 +1,5 @@
 .my-canvas {
     border: 1px solid black;
-}
-
-* {
     cursor: crosshair;
 }
 
@@ -36,4 +33,12 @@ body {
 
 label {
     align-self: center;
+}
+
+.pressed-button {
+    background: #e5e5e5;
+    outline: none;
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+       -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+            box-shadow: inset 0px 0px 5px #c1c1c1;  
 }

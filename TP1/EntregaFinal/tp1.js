@@ -2,6 +2,9 @@ addEventListener("DOMContentLoaded", setUpCanvas);
 
 function setUpCanvas() {
 
+    let herramienta = "";
+    let goma = document.querySelector(".js-goma");
+    let lapiz = document.querySelector(".js-lapiz");
     let isClickDown = false;
     let coordenadasActuales = {};
     let canvas = document.querySelector(".js-my-canvas");
@@ -20,10 +23,16 @@ function setUpCanvas() {
         return coordenadas
     }
     
-    function drawDot(e) {
+    function drawDot(e, herramienta) {
+        let color;
+        if (herramienta == "goma") {
+            color = "#ffffff";
+        }
+        else {
+            color = document.querySelector(".js-color-picker").value;
+        }
         let coordenadas = getPosition(e);
         let pointSize = document.querySelector(".js-line-range").value;
-        let color = document.querySelector(".js-color-picker").value;
         let context = canvas.getContext("2d");
     
         context.fillStyle = color;
@@ -33,8 +42,14 @@ function setUpCanvas() {
     }
     
     function drawLine(event, context, cooordenadasActuales) {
+        let color;
+        if (herramienta == "goma") {
+            color = "#ffffff";
+        }
+        else {
+            color = document.querySelector(".js-color-picker").value;
+        }
         let pointSize = document.querySelector(".js-line-range").value;
-        let color = document.querySelector(".js-color-picker").value;
         let newX = event.offsetX;
         let newY = event.offsetY;
     
@@ -48,10 +63,14 @@ function setUpCanvas() {
         cooordenadasActuales.x = newX;
         coordenadasActuales.y = newY; 
     }
+
+    function getHerramientaClickeada() {
+        return herramienta;
+    }
     
     lineWidthRange.addEventListener( 'input', event => {
         let width = event.target.value;
-        document.querySelector("#tool-size").querySelector("span").innerHTML = width;
+        document.querySelector("#size-of-tool").querySelector("span").innerHTML = width;
         context.lineWidth = width;
     } );
     
@@ -62,19 +81,32 @@ function setUpCanvas() {
             'x' : event.offsetX,
             'y' : event.offsetY
         }
-        drawDot(event);
+        drawDot(event, getHerramientaClickeada());
     
     });
     
     canvas.addEventListener( 'mousemove', function() {
         if (isClickDown) {
-            drawLine(event, context, coordenadasActuales) 
+            drawLine(event, context, coordenadasActuales, getHerramientaClickeada()) 
         }
     } );
     
     canvas.addEventListener( 'mouseup', function() { isClickDown = false; });
     
     canvas.addEventListener( 'mouseout', function() { isClickDown = false;} );
+
+    goma.addEventListener("click", function() {
+        lapiz.classList.remove("pressed-button");
+        goma.classList.toggle("pressed-button");
+        herramienta = "goma";
+    })
+
+    lapiz.addEventListener("click", function() {
+        goma.classList.remove("pressed-button");
+        lapiz.classList.toggle("pressed-button");
+        herramienta = "lapiz";
+    })
+
 }
 
 setUpCanvas;
