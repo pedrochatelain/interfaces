@@ -107,6 +107,14 @@ function setUpCanvas() {
         herramienta = "lapiz";
     })
 
+    /* ----------------------------------- CARGA DE IMAGEN ----------------------------------- */
+
+    let btn_select_image = document.querySelector(".js-btn-select-image");
+
+    btn_select_image.addEventListener("click", function() {
+        document.querySelector(".js-input-select-image").click();
+    })
+
 }
 
 setUpCanvas;

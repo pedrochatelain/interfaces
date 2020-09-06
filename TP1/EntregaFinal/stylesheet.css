@@ -14,21 +14,40 @@ body {
 }
 
 .tool-bar {
-    margin-left: 10%;
     justify-items: center;
     align-items: center;
-    border: 1px solid black;
-    width: 60%;
     height: 40%;
-    display: grid;
     grid-template-rows: repeat(4, 1fr);
     grid-template-columns: 1fr 2fr;
     padding-left: 1%;
     padding-top: 1%;
 }
 
+.tool-bar, .image-buttons-bar {
+    display: grid;
+    width: 60%;
+    margin-left: 10%;
+}
+
+.image-buttons-bar {
+    height: 50%;
+    margin-top: 6%;
+    grid-column-start: 2;
+    grid-column-end: -1;
+    grid-row-start: 2;
+}
+
+.image-buttons-bar button {
+    padding: 3%;
+    margin-bottom: 2%;
+}
+
 .tool-button, .tool-size {
     justify-self: start;
+}
+
+.tool-button {
+    cursor: pointer;
 }
 
 label {
@@ -42,3 +61,8 @@ label {
        -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
             box-shadow: inset 0px 0px 5px #c1c1c1;  
 }
+
+.input-select-image {
+    display: none;
+}
+
