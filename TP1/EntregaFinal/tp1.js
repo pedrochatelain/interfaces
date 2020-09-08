@@ -111,6 +111,7 @@ function setUpCanvas() {
 
     let boton_seleccionar_imagen = document.querySelector(".js-btn-select-image");
     let input_select_image = document.querySelector(".js-input-select-image");
+    let boton_descartar_imagen = document.querySelector(".js-delete-img");
 
     function clearCanvas(canvas) {
         context = canvas.getContext('2d');
@@ -167,6 +168,8 @@ function setUpCanvas() {
             }
         }
     })
+
+    boton_descartar_imagen.addEventListener("click", function() { clearCanvas(canvas) });
 
 }
 
