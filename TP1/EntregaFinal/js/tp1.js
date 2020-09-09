@@ -1,6 +1,4 @@
-addEventListener("DOMContentLoaded", setUpCanvas);
 
-function setUpCanvas() {
 
     let herramienta = "";
     let goma = document.querySelector(".js-goma");
@@ -191,25 +189,10 @@ function setUpCanvas() {
 
     let elasticCanvas = document.querySelector(".js-canvas-imagen-original");
     let boton_filtro_negativo = document.querySelector(".js-filtro-negativo")
+    let boton_filtro_brillo = document.querySelector(".js-filtro-brillo")
 
-    function setNegativo(canvas, elasticCanvas) {
-        let ctxElasticCanvas = elasticCanvas.getContext("2d");
-        let imageData = ctxElasticCanvas.getImageData(0, 0, elasticCanvas.width, elasticCanvas.height);
-        let imageDataConFiltro = imageData;
-        for (let j = 0; j < elasticCanvas.height; j++) {
-            for (let i = 0; i < elasticCanvas.width; i++) {
-                let index = (i + elasticCanvas.width * j) * 4;
-                imageDataConFiltro.data[index + 0] = 255 - imageDataConFiltro.data[index + 0];
-                imageDataConFiltro.data[index + 1] = 255 - imageDataConFiltro.data[index + 1];
-                imageDataConFiltro.data[index + 2] = 255 - imageDataConFiltro.data[index + 2];
-            }
-        }
-        ctxElasticCanvas.putImageData(imageDataConFiltro, 0, 0);
-        isImageBig(elasticCanvas, canvas) ? drawScaledImage(elasticCanvas, canvas) : drawImage(elasticCanvas, canvas);
-    }
+    
 
     boton_filtro_negativo.addEventListener("click", function() { setNegativo(canvas, elasticCanvas) });
+    boton_filtro_brillo.addEventListener("click", function() { setBrillo(canvas, elasticCanvas) });
 
-}
-
-setUpCanvas;
