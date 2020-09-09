@@ -39,6 +39,22 @@ function setBrillo(canvas, elasticCanvas) {
         }
     }
     ctxElasticCanvas.putImageData(imageDataConFiltro, 0, 0);
-    isImageBig(elasticCanvas, canvas) ? drawScaledImage(elasticCanvas, canvas) : drawImage(elasticCanvas, canvas);
+    isImageBig(elasticCanvas, canvas) ? drawScaledImage(elasticCanvas, canvas) : drawImage(elasticCanvas, canvas);    
+}
 
+function setGrayscale(canvas, elasticCanvas) {
+    let ctxElasticCanvas = elasticCanvas.getContext("2d");
+    let imageData = ctxElasticCanvas.getImageData(0, 0, elasticCanvas.width, elasticCanvas.height);
+    let imageDataConFiltro = imageData;
+    for (let j = 0; j < elasticCanvas.height; j++) {
+        for (let i = 0; i < elasticCanvas.width; i++) {
+            let index = (i + elasticCanvas.width * j) * 4;
+            var grayscale = imageDataConFiltro.data[index + 0] * .3 + imageDataConFiltro.data[index + 1] * .59 + imageDataConFiltro.data[index + 2] * .11;
+            imageDataConFiltro.data[index + 0] = grayscale;
+            imageDataConFiltro.data[index + 1] = grayscale;
+            imageDataConFiltro.data[index + 2] = grayscale;
+        }
+    }
+    ctxElasticCanvas.putImageData(imageDataConFiltro, 0, 0);
+    isImageBig(elasticCanvas, canvas) ? drawScaledImage(elasticCanvas, canvas) : drawImage(elasticCanvas, canvas);
 }
