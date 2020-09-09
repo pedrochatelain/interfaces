@@ -58,3 +58,26 @@ function setGrayscale(canvas, elasticCanvas) {
     ctxElasticCanvas.putImageData(imageDataConFiltro, 0, 0);
     isImageBig(elasticCanvas, canvas) ? drawScaledImage(elasticCanvas, canvas) : drawImage(elasticCanvas, canvas);
 }
+
+function setSepia(canvas, elasticCanvas) {
+    let ctxElasticCanvas = elasticCanvas.getContext("2d");
+    let imageData = ctxElasticCanvas.getImageData(0, 0, elasticCanvas.width, elasticCanvas.height);
+    let imageDataConFiltro = imageData;
+    for (let j = 0; j < elasticCanvas.height; j++) {
+        for (let i = 0; i < elasticCanvas.width; i++) {
+            let index = (i + elasticCanvas.width * j) * 4;
+            let red = imageDataConFiltro.data[index + 0];
+            let green = imageDataConFiltro.data[index + 1];
+            let blue = imageDataConFiltro.data[index + 2];
+            /*  outputRed = (inputRed * .393) + (inputGreen *.769) + (inputBlue * .189)
+                outputGreen = (inputRed * .349) + (inputGreen *.686) + (inputBlue * .168)
+                outputBlue = (inputRed * .272) + (inputGreen *.534) + (inputBlue * .131)
+            */
+            imageDataConFiltro.data[index + 0] = (red * .393) + (green *.769) + (blue * .189);
+            imageDataConFiltro.data[index + 1] = (red * .349) + (green *.686) + (blue * .168);
+            imageDataConFiltro.data[index + 2] = (red * .272) + (green *.534) + (blue * .131);
+        }
+    }
+    ctxElasticCanvas.putImageData(imageDataConFiltro, 0, 0);
+    isImageBig(elasticCanvas, canvas) ? drawScaledImage(elasticCanvas, canvas) : drawImage(elasticCanvas, canvas);
+}

@@ -190,9 +190,10 @@
     let elasticCanvas = document.querySelector(".js-canvas-imagen-original");
     let boton_filtro_negativo = document.querySelector(".js-filtro-negativo");
     let boton_filtro_brillo = document.querySelector(".js-filtro-brillo");
-    let boton_filtro_grayscale = document.querySelector(".js-filtro-grayscale");    
+    let boton_filtro_grayscale = document.querySelector(".js-filtro-grayscale");
+    let boton_filtro_sepia = document.querySelector(".js-filtro-sepia");
 
     boton_filtro_negativo.addEventListener("click", function() { setNegativo(canvas, elasticCanvas) });
     boton_filtro_brillo.addEventListener("click", function() { setBrillo(canvas, elasticCanvas) });
     boton_filtro_grayscale.addEventListener("click", function() { setGrayscale(canvas, elasticCanvas) });
-
+    boton_filtro_sepia.addEventListener("click", function() { setSepia(canvas, elasticCanvas) });
