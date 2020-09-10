@@ -9,23 +9,42 @@ html {
         
 }
 
+#canvas-wrap { position:relative; width:800px; height:600px }
+#canvas-wrap canvas { position:absolute; top:0; left:0; z-index:0 }
+
+
 .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+    border: 3px solid #f3f3f3; /* Light grey */
+    border-top: 3px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 20px;
+    height: 20px;
     animation: spin 2s linear infinite;
+    align-self: center;
+    margin-left: 5%;
   }
   
-  @keyframes spin {
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
+}
+
+.loading {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-self: center;
+    height: 100%;
+}
 
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.loading p {
+    align-self: center;
+    justify-self: right;
+    font-size: 28px;
 }
 
 .color-picker {
@@ -86,10 +105,6 @@ label {
             box-shadow: inset 0px 0px 5px #c1c1c1;  
 }
 
-.input-select-image {
-    display: none;
-}
-
-.canvas-invisible {
+.input-select-image, .canvas-invisible, .loading-invisible {
     display: none;
 }

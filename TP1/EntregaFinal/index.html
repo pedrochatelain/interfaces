@@ -7,18 +7,25 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-    <canvas class="js-my-canvas my-canvas" width="800px" height="600px"> </canvas>
+    <div id="canvas-wrap">
+        <canvas class="js-my-canvas my-canvas" width="800px" height="600px"> </canvas>
+        <div class="loading loading-invisible">
+            <p>Loading</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+        
     <div class="herramientas">
         <div class="tool-bar">
             <p>Lápiz</p>
             <button class="js-lapiz tool-button">
-                <img src="penIcon.png" alt="" srcset="">
+                <img src="img/penIcon.png" alt="" srcset="">
             </button>
             <p>Color</p>
             <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
             <p>Goma</p>
             <button class="js-goma tool-button">
-                <img src="eraserIcon.png" alt="" srcset="">
+                <img src="img/eraserIcon.png" alt="" srcset="">
             </button>
             <p id="size-of-tool">Size (<span>1</span> px)</p>
             <div class="tool-size">
@@ -26,7 +33,6 @@
                 <label class="js-range-value"></label> 
             </div>
         </div>
-        <div class="loader"></div>
 
         <div class="image-buttons-bar">
             <input type="file" class="js-input-select-image input-select-image" accept=".jpg,.jpeg,.bmp,.webp,.tiff,.psd,.svg">
@@ -42,6 +48,8 @@
         </div>
         <canvas class="js-canvas-invisible canvas-invisible"></canvas>
     </div>
+   
+
     <script src="js/main.js"></script>
     <script src="js/filtro.js"></script>
     <script src="js/color_converters.js"></script>
