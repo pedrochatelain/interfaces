@@ -11,13 +11,13 @@
     <div class="herramientas">
         <div class="tool-bar">
             <p>Lápiz</p>
-            <button class="js-lapiz tool-button pressed-button">
+            <button class="js-lapiz tool-button">
                 <img src="penIcon.png" alt="" srcset="">
             </button>
             <p>Color</p>
             <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
             <p>Goma</p>
-            <button class="tool-button js-goma">
+            <button class="js-goma tool-button">
                 <img src="eraserIcon.png" alt="" srcset="">
             </button>
             <p id="size-of-tool">Size (<span>1</span> px)</p>
@@ -38,10 +38,12 @@
             <button class="js-filtro-grayscale">Grayscale</button>
             <button class="js-filtro-sepia">Sepia</button>
         </div>
-        <canvas class="js-canvas-imagen-original canvas-imagen-original"></canvas>
+        <canvas class="js-canvas-invisible canvas-invisible"></canvas>
     </div>
-    <script src="js/tp1.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/filtros.js"></script>
     <script src="js/color_converters.js"></script>
+    <script src="js/imagen.js"></script>
+    <script src="js/dibujo.js"></script>
 </body>
 </html>
