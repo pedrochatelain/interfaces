@@ -1,0 +1,3 @@
+- bug al seleccionar imagen y luego cancelar
+- bug al seleccionar imagen y luego seleccionar la misma
+- ocultar herramientas de dibujo al cargar imagen

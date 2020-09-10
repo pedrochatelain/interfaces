@@ -6,31 +6,25 @@ function init() {
 
     dibujo(canvas, context);
 
-    imagen(canvas, context, canvas_invisible, context_canvas_invisible);
+    imagen(canvas, context, canvas_invisible, isImageBig, drawScaledImage, drawImage, context_canvas_invisible);
 
+    filtro(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
+
+     // devuelve true si las dimensiones de una imagen superan a las del canvas
+     function isImageBig(image, canvas) {
+        return canvas.height < image.height || canvas.width < image.width;
+    }
+
+    function drawScaledImage(image, context) {
+        // get the scale
+        var scale = Math.min(canvas.width / image.width, canvas.height / image.height);
+        context.drawImage(image, 0, 0, image.width * scale, image.height * scale);
+    }
+    
+    function drawImage(image, context) {
+        context.drawImage(image, 0, 0);
+    }
 }
 
 addEventListener("DOMContentLoaded", init);
 
-let boton_filtro_negativo = document.querySelector(".js-filtro-negativo");
-let boton_filtro_brillo = document.querySelector(".js-filtro-brillo");
-let boton_filtro_grayscale = document.querySelector(".js-filtro-grayscale");
-let boton_filtro_sepia = document.querySelector(".js-filtro-sepia");
-
-// ---- Comportamiento ---- //
-
-
-
-
-
-
-/* ----------------------------------- CARGA DE IMAGEN ----------------------------------- */
-
-
-/* ----------------------------------- FILTROS ----------------------------------- */
-
-
-boton_filtro_negativo.addEventListener("click", function() { setNegativo(canvas, canvas_invisible) });
-boton_filtro_brillo.addEventListener("click", function() { setBrillo(canvas, canvas_invisible) });
-boton_filtro_grayscale.addEventListener("click", function() { setGrayscale(canvas, canvas_invisible) });
-boton_filtro_sepia.addEventListener("click", function() { setSepia(canvas, canvas_invisible) });
