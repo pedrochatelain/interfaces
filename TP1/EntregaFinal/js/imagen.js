@@ -1,4 +1,4 @@
-function imagen(canvas, context, canvas_invisible, isImageBig, drawScaledImage, drawImage, context_canvas_invisible) {
+function imagen(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage) {
 
     let boton_seleccionar_imagen = document.querySelector(".js-btn-select-image");
     let input_select_image = document.querySelector(".js-input-select-image");
@@ -14,9 +14,11 @@ function imagen(canvas, context, canvas_invisible, isImageBig, drawScaledImage, 
         input_select_image.click();
     })
 
-    // Si se elige una imagen...
     input_select_image.addEventListener("change", function() {
-        clearCanvas(canvas);
+        if (event.target.files[0] != null) {
+            clearCanvas(canvas);
+            imagenActual = event.target.files[0];
+        }
         let reader = getReader(event);
         reader.onload = readerEvent => {
             image = getImage(readerEvent);
@@ -27,6 +29,8 @@ function imagen(canvas, context, canvas_invisible, isImageBig, drawScaledImage, 
                 isImageBig(image, canvas) ? drawScaledImage(image, context) : drawImage(image, context);
             }
         }
+        // Por si se clickea en "Descartar imagen" e inmediatamente se elige la misma imagen
+        input_select_image.value = null;
     })
 
     function clearCanvas(canvas) {

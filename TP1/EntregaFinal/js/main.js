@@ -6,7 +6,7 @@ function init() {
 
     dibujo(canvas, context);
 
-    imagen(canvas, context, canvas_invisible, isImageBig, drawScaledImage, drawImage, context_canvas_invisible);
+    imagen(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
 
     filtro(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
 

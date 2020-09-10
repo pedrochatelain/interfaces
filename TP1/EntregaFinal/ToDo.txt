@@ -1,3 +1,4 @@
-- bug al seleccionar imagen y luego cancelar
-- bug al seleccionar imagen y luego seleccionar la misma
+- los filtros tienen que aplicarse a la imagen original,
+ (que no se acumulen)
+- bug al cambiar color sin clickear lapiz
 - ocultar herramientas de dibujo al cargar imagen
