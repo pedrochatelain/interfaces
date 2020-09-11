@@ -88,6 +88,21 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
         context_canvas_invisible.putImageData(imageDataConFiltro, 0, 0);
         isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
     }
-}
 
+    let btn_sobel = document.querySelector(".js-filtro-sobel");
+
+    btn_sobel.addEventListener("click", function() { setSobel(canvas, canvas_invisible) });
+    
+    
+    function setSobel(canvas, canvas_invisible) {
+        let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
+        var sobelData = Sobel(imageData);
+        
+        var sobelImageData = sobelData.toImageData();
+        context_canvas_invisible.putImageData(sobelImageData, 0, 0);
+        isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
+          
+    }
+
+}
 

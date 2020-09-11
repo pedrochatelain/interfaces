@@ -61,5 +61,5 @@ function imagen(canvas, context, canvas_invisible, context_canvas_invisible, isI
         canvas.width = image.width;
         canvas.height = image.height;
     }
+    
 }
-

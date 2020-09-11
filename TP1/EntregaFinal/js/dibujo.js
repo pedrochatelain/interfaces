@@ -92,4 +92,5 @@ function dibujo(canvas, context) {
         coordenadasActuales.x = newX;
         coordenadasActuales.y = newY; 
     }
+    
 }

@@ -1,4 +1,5 @@
 function init() {
+
     let canvas = document.querySelector(".js-my-canvas");
     let context = canvas.getContext("2d");
     let canvas_invisible = document.querySelector(".js-canvas-invisible"); // donde se coloca la imagen con tamaño original
@@ -10,8 +11,8 @@ function init() {
 
     filtro(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
 
-     // devuelve true si las dimensiones de una imagen superan a las del canvas
-     function isImageBig(image, canvas) {
+    // devuelve true si las dimensiones de una imagen superan a las del canvas
+    function isImageBig(image, canvas) {
         return canvas.height < image.height || canvas.width < image.width;
     }
 
@@ -24,6 +25,7 @@ function init() {
     function drawImage(image, context) {
         context.drawImage(image, 0, 0);
     }
+
 }
 
 addEventListener("DOMContentLoaded", init);
