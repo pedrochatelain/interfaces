@@ -79,15 +79,11 @@ function Sobel(imageData) {
 
     var clampedArray = sobelData;
 
-    if (typeof Uint8ClampedArray === 'function') {
-      clampedArray = new Uint8ClampedArray(sobelData);
-    }
-
     clampedArray.toImageData = function() {
       return Sobel.toImageData(clampedArray, width, height);
     };
-
-    return clampedArray;
+    console.log(sobelData);
+    return sobelData;
 }
 
 Sobel.toImageData = function toImageData(data, width, height) {
