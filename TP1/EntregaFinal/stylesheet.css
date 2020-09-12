@@ -1,58 +1,57 @@
 * {
     font-family: Century Gothic;
+    font-size: 14px;
 }
 
 .my-canvas {
     -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-        
+    background-color: white;
 }
 
-#canvas-wrap { position:relative; width:800px; height:600px }
-#canvas-wrap canvas { position:absolute; top:0; left:0; z-index:0 }
-
-
-.loader {
-    border: 3px solid #f3f3f3; /* Light grey */
-    border-top: 3px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 2s linear infinite;
-    align-self: center;
-    margin-left: 5%;
-  }
-  
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.herramientas {
+    display: grid;
+    margin-top: 3%;
+    grid-template-rows: 1fr 3fr;
+    width: 85%;
 }
 
-.loading {
+.image-tools {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    justify-self: center;
-    height: 100%;
 }
 
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    background-color: #deebdd;
+    background-image: linear-gradient(315deg, #deebdd 0%, #bbdbbe 74%);
 }
 
-.loading p {
-    align-self: center;
-    justify-self: right;
-    font-size: 28px;
+.range {
+    width: 100%;
 }
 
 .color-picker {
-    width: 45px;
-    height: 35px;
+    width: 35px;
+}
+
+
+
+.filtros {
+    margin-top: 10%;
+    margin-left: 30%;
+    grid-column-start: 2;
+    grid-column-end: -1;
+    grid-row-start: 1;
+    width: 100%;
+    justify-content: center;
 }
 
 .tool-bar {
+    border-radius: 8px;
+
     -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
@@ -60,33 +59,56 @@ box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
     justify-items: center;
     align-items: center;
     height: 40%;
-    grid-template-rows: repeat(4, 1fr);
-    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr;
     padding-left: 1%;
     padding-top: 1%;
+    width: 90%;
+    margin-top: 10%;
+    margin-left: 20%;
 }
 
 .tool-bar, .image-buttons-bar {
     display: grid;
-    width: 58%;
-    margin-left: 10%;
 }
 
 .image-buttons-bar {
-    height: 50%;
-    margin-top: 6%;
+    margin-right: 8%;
+    margin-left: 10%;
     grid-column-start: 2;
     grid-column-end: -1;
-    grid-row-start: 2;
+    grid-row-start: 0;
+    height: 3%;
 }
 
 .image-buttons-bar button {
-    padding: 3%;
-    margin-bottom: 2%;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+
 }
 
-.tool-button, .tool-size {
-    justify-self: start;
+.lapiz-img, .goma-img {
+    width: 25px;
+    height: 25px;
+}
+
+.image-buttons-bar button {
+    background-color: #f9f9f9;
+    padding: 2%;
+    margin-bottom: 2%;
+    border: 1px solid black;
+}
+
+.tool-button {
+    justify-self: center;
+    height: 80%;
+}
+
+.tool-size {
+    justify-self: center;
+    margin-right: 10%;
 }
 
 label {
@@ -101,6 +123,60 @@ label {
             box-shadow: inset 0px 0px 5px #c1c1c1;  
 }
 
-.input-select-image, .canvas-invisible, .loading-invisible {
+.input-select-image, .canvas-invisible {
     display: none;
 }
+
+/* Style The Dropdown Button */
+.dropbtn {
+    background-color: #f9f9f9;
+    padding: 16px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+
+    cursor: pointer;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown, .dropbtn {
+      width: 70%;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    
+  }
+  
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #f1f1f1}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {
+    background-color: #f4f4f4;
+  }

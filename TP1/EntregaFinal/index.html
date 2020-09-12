@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trabajo practico 1 - Pedro Chatelain</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="stylesheet.css">    
 </head>
 <body>
     <div id="canvas-wrap">
@@ -12,43 +12,55 @@
     </div>
         
     <div class="herramientas">
-        <div class="tool-bar">
-            <p>Lápiz</p>
-            <button class="js-lapiz tool-button">
-                <img src="img/penIcon.png" alt="" srcset="">
-            </button>
-            <p>Color</p>
-            <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
-            <p>Goma</p>
-            <button class="js-goma tool-button">
-                <img src="img/eraserIcon.png" alt="" srcset="">
-            </button>
-            <p id="size-of-tool">Size (<span>1</span> px)</p>
-            <div class="tool-size">
-                <input type="range" class="js-line-range" min="1" max="80" value="1">
-                <label class="js-range-value"></label> 
-            </div>
-        </div>
-
         <div class="image-buttons-bar">
             <input type="file" class="js-input-select-image input-select-image" accept=".jpg,.jpeg,.bmp,.webp,.tiff,.psd,.svg">
             <button class="js-btn-select-image btn-select-image">Seleccionar imagen</button>
             <button class="js-save-img">Guardar imagen</button>
             <button class="js-delete-img">Descartar imagen</button>
         </div>
-        <div class="filtros">
-            <button class="js-filtro-negativo">Negativo</button>
-            <button class="js-filtro-brillo">Brillo</button>
-            <button class="js-filtro-grayscale">Grayscale</button>
-            <button class="js-filtro-sepia">Sepia</button>
-            <button class="js-filtro-bordes">Deteccion de bordes</button>
-            <button class="js-filtro-blur">Blur</button>
-            <button class="js-filtro-sharpen">Nitidez</button>
-        </div>
-        <canvas class="js-canvas-invisible canvas-invisible"></canvas>
-    </div>
-   
+        <div class="image-tools">
+            
+            <div class="tool-bar">
 
+                <p>Lápiz</p>
+                <button class="js-lapiz tool-button">
+                    <img class="lapiz-img" src="img/writer.svg" alt="" srcset="">
+                </button>
+                <p>Color</p>
+                <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
+                <p>Goma</p>
+                <button class="js-goma tool-button">
+                    <img class="goma-img" src="img/eraser.svg" alt="" srcset="">
+                </button>
+                <p id="size-of-tool">Size (<span>1</span> px)</p>
+                <div class="tool-size">
+                    <input type="range" class="range js-line-range" min="1" max="80" value="1">
+                </div>
+                
+            </div>
+
+            <div class="filtros">
+                    <div class="dropdown">
+                        <button class="dropbtn">Filtros</button>
+                        <div class="dropdown-content">
+                          <a class="js-filtro-negativo" href="#">Negativo</a>
+                          <a class="js-filtro-brillo" href="#">Brillo</a>
+                          <a class="js-filtro-grayscale" href="#">Grayscale</a>
+                          <a class="js-filtro-sepia" href="#">Sepia</a>
+                          <a class="js-filtro-bordes" href="#">Detección de bordes</a>
+                          <a class="js-filtro-blur" href="#">Blur</a>
+                          <a class="js-filtro-sharpen" href="#">Nitidez</a>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+        
+        
+        <canvas class="js-canvas-invisible canvas-invisible"></canvas>
+
+    </div>
+    
     <script src="js/main.js"></script>
     <script src="js/filtro.js"></script>
     <script src="js/color_converters.js"></script>

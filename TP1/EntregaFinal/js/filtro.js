@@ -177,4 +177,3 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
     }
 
 }
-
