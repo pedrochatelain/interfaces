@@ -83,7 +83,8 @@
 body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: #3399ff;
+    /* background-color: #3399ff; */
+    background-image: url("img/background.jpg");
 }
 
 .btn-descargar-imagen, .btn-limpiar-canvas {
