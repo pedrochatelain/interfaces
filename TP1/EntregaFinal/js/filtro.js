@@ -7,9 +7,9 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
     let boton_filtro_blur = document.querySelector(".js-filtro-blur");
     let boton_filtro_nitidez = document.querySelector(".js-filtro-sharpen");
     let boton_filtro_bordes = document.querySelector(".js-filtro-bordes");
-    
+
     // Filtros por pixel
-   
+    
     boton_filtro_negativo.addEventListener("click", function() { setNegativo() });
     boton_filtro_brillo.addEventListener("click", function() { setBrillo() });
     boton_filtro_grayscale.addEventListener("click", function() { setGrayscale() });

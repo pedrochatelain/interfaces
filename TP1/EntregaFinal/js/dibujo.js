@@ -6,8 +6,12 @@ function dibujo(canvas, context) {
     let coordenadasActuales = {};
     let grosor_herramienta = document.querySelector( '.js-line-range' );    
     let color_herramienta = document.querySelector(".js-color-picker").value;
+    let color_picker = document.querySelector(".js-color-picker");
     let herramienta_seleccionada = '';
-    
+
+    color_picker.addEventListener("input", updateColor, false);
+    color_picker.addEventListener("change", updateColor, false);
+
     goma.addEventListener("click", function() {
         lapiz.classList.remove("pressed-button");
         goma.classList.add("pressed-button");
@@ -19,7 +23,7 @@ function dibujo(canvas, context) {
         goma.classList.remove("pressed-button");
         lapiz.classList.add("pressed-button");
         herramienta_seleccionada = "lapiz";
-        color_herramienta = document.querySelector(".js-color-picker").value
+        color_herramienta = color_picker.value
     })
     
     /* Muestra en la página el tamaño en pixeles que tiene la herramienta seleccionada.
@@ -53,8 +57,7 @@ function dibujo(canvas, context) {
 
     canvas.addEventListener( 'mouseout', function() { isClickDown = false;} );
 
-    
-    // Event will be a click event which can be retrieved as first parameter in the addEventListener(function(event){}); or in jQuery with $("selector").click(function(event){});
+    // Event will be a click event which can be retrieved as first parameter in the addEventListener(function(event){})
     function getPosition(event){
         var rect = canvas.getBoundingClientRect();
         var x = event.clientX - rect.left; // x == the location of the click in the document - the location (relative to the left) of the canvas in the document
@@ -93,4 +96,10 @@ function dibujo(canvas, context) {
         coordenadasActuales.y = newY; 
     }
     
+    function updateColor() {
+        if (herramienta_seleccionada != "goma") {
+            color_herramienta = color_picker.value
+        }
+    }
+
 }

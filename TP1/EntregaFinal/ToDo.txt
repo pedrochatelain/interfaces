@@ -1,5 +1,0 @@
-- los filtros tienen que aplicarse a la imagen original,
- (que no se acumulen)
-- bug al cambiar color sin clickear lapiz
-- ocultar herramientas de dibujo al cargar imagen
-- conviene que los filtros sean tipo radio

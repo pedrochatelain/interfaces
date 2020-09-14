@@ -3,57 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabajo practico 1 - Pedro Chatelain</title>
+    <title>TP1</title>
     <link rel="stylesheet" href="stylesheet.css">    
 </head>
 <body>
-    <div id="canvas-wrap">
-        <canvas class="js-my-canvas my-canvas" width="800px" height="600px"> </canvas>
-    </div>
+
+    <canvas class="js-my-canvas my-canvas" width="800px" height="600px"> </canvas>
         
     <div class="herramientas">
+
         <div class="image-buttons-bar">
             <input type="file" class="js-input-select-image input-select-image" accept=".jpg,.jpeg,.bmp,.webp,.tiff,.psd,.svg">
             <button class="js-btn-select-image btn-select-image">Seleccionar imagen</button>
-            <button class="js-save-img">Guardar imagen</button>
-            <button class="js-delete-img">Descartar imagen</button>
+            <button class="js-delete-img btn-limpiar-canvas">Limpiar canvas</button>
+            <button class="js-descargar-imagen btn-descargar-imagen">Descargar imagen con filtro</button>
+            <button class="js-descargar-canvas btn-descargar-canvas">Descargar canvas</button>
         </div>
-        <div class="image-tools">
-            
-            <div class="tool-bar">
 
-                <p>Lápiz</p>
-                <button class="js-lapiz tool-button">
-                    <img class="lapiz-img" src="img/writer.svg" alt="" srcset="">
-                </button>
-                <p>Color</p>
-                <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
-                <p>Goma</p>
-                <button class="js-goma tool-button">
-                    <img class="goma-img" src="img/eraser.svg" alt="" srcset="">
-                </button>
-                <p id="size-of-tool">Size (<span>1</span> px)</p>
-                <div class="tool-size">
-                    <input type="range" class="range js-line-range" min="1" max="80" value="1">
+        <div class="drawing-tools">
+            <p class="lapiz-text">Lápiz</p>
+            <button class="js-lapiz tool-button lapiz">
+                <img class="lapiz-img" src="img/writer.svg" alt="" srcset="">
+            </button>
+            <p class="color-picker-text">Color</p>
+            <input class="js-color-picker color-picker tool-button" type="color" value="#ee1111"/>
+            <p class="goma-text">Goma</p>
+            <button class="js-goma tool-button goma">
+                <img class="goma-img" src="img/eraser.svg" alt="" srcset="">
+            </button>
+            <p class="size-text" id="size-of-tool">Tamaño (<span>1</span> px)</p>
+            <div class="tool-size">
+                <input type="range" class="range js-line-range" min="1" max="80" value="1">
+            </div>      
+        </div>
+
+        <div class="js-filtros filtros oculto">
+            <div class="dropdown">
+                <button class="dropbtn">Filtros para imagen</button>
+                <div class="dropdown-content">
+                  <a class="js-filtro-negativo" href="#">Negativo</a>
+                  <a class="js-filtro-brillo" href="#">Brillo</a>
+                  <a class="js-filtro-grayscale" href="#">Grayscale</a>
+                  <a class="js-filtro-sepia" href="#">Sepia</a>
+                  <a class="js-filtro-bordes" href="#">Detección de bordes</a>
+                  <a class="js-filtro-blur" href="#">Blur</a>
+                  <a class="js-filtro-sharpen" href="#">Nitidez</a>
                 </div>
-                
             </div>
-
-            <div class="filtros">
-                    <div class="dropdown">
-                        <button class="dropbtn">Filtros</button>
-                        <div class="dropdown-content">
-                          <a class="js-filtro-negativo" href="#">Negativo</a>
-                          <a class="js-filtro-brillo" href="#">Brillo</a>
-                          <a class="js-filtro-grayscale" href="#">Grayscale</a>
-                          <a class="js-filtro-sepia" href="#">Sepia</a>
-                          <a class="js-filtro-bordes" href="#">Detección de bordes</a>
-                          <a class="js-filtro-blur" href="#">Blur</a>
-                          <a class="js-filtro-sharpen" href="#">Nitidez</a>
-                        </div>
-                    </div>
-                </div>
-
         </div>
         
         
@@ -66,6 +62,5 @@
     <script src="js/color_converters.js"></script>
     <script src="js/imagen.js"></script>
     <script src="js/dibujo.js"></script>
-    <script src="js/sobel.js"></script>
 </body>
 </html>
