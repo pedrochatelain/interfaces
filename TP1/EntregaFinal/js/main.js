@@ -23,9 +23,9 @@ function init() {
         return canvas.height < image.height || canvas.width < image.width;
     }
 
+    // dibuja una imagen a escala dentro del canvas
     function drawScaledImage(image, context) {
-        // get the scale
-        var scale = Math.min(canvas.width / image.width, canvas.height / image.height);
+        let scale = Math.min(canvas.width / image.width, canvas.height / image.height);
         context.drawImage(image, 0, 0, image.width * scale, image.height * scale);
     }
     

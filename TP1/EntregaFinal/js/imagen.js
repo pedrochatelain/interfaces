@@ -25,7 +25,6 @@ function imagen(canvas, context, canvas_invisible, context_canvas_invisible, isI
         imageFile = null;
     });
     
-    // Si se clickea en "Seleccionar imagen"...
     boton_seleccionar_imagen.addEventListener("click", function() {
         input_select_image.click();
     })
@@ -41,7 +40,6 @@ function imagen(canvas, context, canvas_invisible, context_canvas_invisible, isI
             image.onload = function () {
                 redimensionarCanvas(canvas_invisible);
                 drawImage(image, context_canvas_invisible);
-                // condition ? exprIfTrue : exprIfFalse
                 isImageBig(image, canvas) ? drawScaledImage(image, context) : drawImage(image, context);
             }
         }

@@ -7,23 +7,22 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
     let boton_filtro_blur = document.querySelector(".js-filtro-blur");
     let boton_filtro_nitidez = document.querySelector(".js-filtro-sharpen");
     let boton_filtro_bordes = document.querySelector(".js-filtro-bordes");
+    
+    boton_filtro_negativo.addEventListener("click", function() { setFiltro(getNegativoPixel) });
 
-    // Filtros por pixel
-    
-    boton_filtro_negativo.addEventListener("click", function() { setNegativo() });
-    boton_filtro_brillo.addEventListener("click", function() { setBrillo() });
-    boton_filtro_grayscale.addEventListener("click", function() { setGrayscale() });
-    boton_filtro_sepia.addEventListener("click", function() { setSepia() });
-    
-    // Filtros con matriz
-    
+    boton_filtro_brillo.addEventListener("click", function() { setFiltro(getBrilloPixel) });
+
+    boton_filtro_grayscale.addEventListener("click", function() { setFiltro(getGrisesPixel) });
+
+    boton_filtro_sepia.addEventListener("click", function() { setFiltro(getSepiaPixel) });
+        
     boton_filtro_bordes.addEventListener("click", function() {
         let kernel =
         [   -1, -1, -1,
             -1,  8, -1,
             -1, -1, -1    ]
 
-        setKernel(kernel)
+        setFiltroMatriz(kernel)
     })
 
     boton_filtro_blur.addEventListener("click", function() {
@@ -32,7 +31,7 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
             1/9, 1/9, 1/9,
             1/9, 1/9, 1/9   ]
         
-        setKernel(kernel)
+        setFiltroMatriz(kernel)
     })
 
     boton_filtro_nitidez.addEventListener("click", function() {
@@ -41,91 +40,88 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
            -1,  5, -1,
             0, -1,  0   ]
 
-        setKernel(kernel)
+        setFiltroMatriz(kernel)
     })
 
-    // Funciones
+    // Aplica un tono negativo a un determinado pixel y lo devuelve modificado
+    function getNegativoPixel(pixel) {
 
-    function setNegativo() {
+        pixel.r = 255 - pixel.r;
+        pixel.g = 255 - pixel.g;
+        pixel.b = 255 - pixel.b;
+        return pixel;
 
-        let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
-        let imageDataConFiltro = imageData;
-
-        for (let j = 0; j < canvas_invisible.height; j++) {
-            for (let i = 0; i < canvas_invisible.width; i++) {
-                let index = (i + canvas_invisible.width * j) * 4;
-                imageDataConFiltro.data[index + 0] = 255 - imageDataConFiltro.data[index + 0];
-                imageDataConFiltro.data[index + 1] = 255 - imageDataConFiltro.data[index + 1];
-                imageDataConFiltro.data[index + 2] = 255 - imageDataConFiltro.data[index + 2];
-            }
-        }
-
-        context_canvas_invisible.putImageData(imageDataConFiltro, 0, 0);
-        isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
     }
-    
-    function setBrillo() {
-        let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
-        let imageDataConFiltro = imageData;
-        for (let j = 0; j < canvas_invisible.height; j++) {
-            for (let i = 0; i < canvas_invisible.width; i++) {
-                let index = (i + canvas_invisible.width * j) * 4;
-                // convertir pixel rgb a hsl
-                let r = imageDataConFiltro.data[index + 0];
-                let g = imageDataConFiltro.data[index + 1];
-                let b = imageDataConFiltro.data[index + 2]
-    
-                let hsl = RGBToHSL(r,g,b);
-    
-                hsl.l = hsl.l+10;
-    
-                let rgb = HSLToRGB(hsl.h, hsl.s, hsl.l);
-    
-                imageDataConFiltro.data[index + 0] = rgb.r;
-                imageDataConFiltro.data[index + 1] = rgb.g;
-                imageDataConFiltro.data[index + 2] = rgb.b;
-            }
-        }
-        context_canvas_invisible.putImageData(imageDataConFiltro, 0, 0);
-        isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);    
+
+    // Aplica brillo a un determinado pixel y lo devuelve modificado
+    function getBrilloPixel(pixel) {
+
+        let hsl = RGBToHSL(pixel.r, pixel.g, pixel.b);
+        hsl.l = hsl.l + 10; // aumenta luminicencia
+        let rgb = HSLToRGB(hsl.h, hsl.s, hsl.l);
+        return rgb;
+
     }
-    
-    function setGrayscale() {
-        let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
-        let imageDataConFiltro = imageData;
-        for (let j = 0; j < canvas_invisible.height; j++) {
-            for (let i = 0; i < canvas_invisible.width; i++) {
-                let index = (i + canvas_invisible.width * j) * 4;
-                let grayscale = imageDataConFiltro.data[index + 0] * .3 + imageDataConFiltro.data[index + 1] * .59 + imageDataConFiltro.data[index + 2] * .11;
-                imageDataConFiltro.data[index + 0] = grayscale;
-                imageDataConFiltro.data[index + 1] = grayscale;
-                imageDataConFiltro.data[index + 2] = grayscale;
-            }
-        }
-        context_canvas_invisible.putImageData(imageDataConFiltro, 0, 0);
-        isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
+
+    // Aplica escala de grises a un determinado pixel y lo devuelve modificado
+    function getGrisesPixel(pixel) {
+
+        let grayscale = pixel.r * .3 + pixel.g * .59 + pixel.b * .11;
+        pixel.r = grayscale;
+        pixel.g = grayscale;
+        pixel.b = grayscale;
+        return pixel;
+
     }
-    
-    function setSepia() {
+
+    // Aplica un tono sepia a un determinado pixel y lo devuelve modificado
+    function getSepiaPixel(pixel) {
+
+        let red = pixel.r;
+        let green = pixel.g;
+        let blue = pixel.b;
+
+        pixel.r = (red * .393) + (green *.769) + (blue * .189);
+        pixel.g = (red * .349) + (green *.686) + (blue * .168);
+        pixel.b = (red * .272) + (green *.534) + (blue * .131);
+        return pixel;
+
+    }
+
+    /* Aplica un filtro a cada pixel del canvas invisible. Por parámetro
+       se pasa la función que se le quiere aplicar al pixel. */
+    function setFiltro(getPixelModificado) {
+
         let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
         let imageDataConFiltro = imageData;
         for (let j = 0; j < canvas_invisible.height; j++) {
             for (let i = 0; i < canvas_invisible.width; i++) {
                 let index = (i + canvas_invisible.width * j) * 4;
+
                 let red = imageDataConFiltro.data[index + 0];
                 let green = imageDataConFiltro.data[index + 1];
                 let blue = imageDataConFiltro.data[index + 2];
+
+                let pixel = {
+                    'r' : red,
+                    'g' : green,
+                    'b' : blue
+                };
+
+                let pixel_modificado = getPixelModificado(pixel)
                 
-                imageDataConFiltro.data[index + 0] = (red * .393) + (green *.769) + (blue * .189);
-                imageDataConFiltro.data[index + 1] = (red * .349) + (green *.686) + (blue * .168);
-                imageDataConFiltro.data[index + 2] = (red * .272) + (green *.534) + (blue * .131);
+                imageDataConFiltro.data[index + 0] = pixel_modificado.r;
+                imageDataConFiltro.data[index + 1] = pixel_modificado.g;
+                imageDataConFiltro.data[index + 2] = pixel_modificado.b;
             }
         }
         context_canvas_invisible.putImageData(imageDataConFiltro, 0, 0);
         isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
+
     }
-        
-    function setKernel(kernel) {
+    
+    // Dado un kernel (matriz) aplica un filtro a la imagen 
+    function setFiltroMatriz(kernel) {
 
         let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
         let size = Math.sqrt(kernel.length);
@@ -175,5 +171,6 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
         isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
         
     }
+
 
 }
