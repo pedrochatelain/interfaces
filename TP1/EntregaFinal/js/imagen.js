@@ -30,24 +30,25 @@ function imagen(canvas, context, canvas_invisible, context_canvas_invisible, isI
     })
 
     input_select_image.addEventListener("change", function() {
-        if (event.target.files[0] != null) {
+        if (event.target.files[0] != null) { // si se seleccionó una imagen
             clearCanvas(canvas);
             imagenActual = event.target.files[0];
-        }
-        let reader = getReader(event);
-        reader.onload = readerEvent => {
-            image = getImage(readerEvent);
-            image.onload = function () {
-                redimensionarCanvas(canvas_invisible);
-                drawImage(image, context_canvas_invisible);
-                isImageBig(image, canvas) ? drawScaledImage(image, context) : drawImage(image, context);
+            let reader = getReader(event);
+            reader.onload = readerEvent => {
+                image = getImage(readerEvent);
+                image.onload = function () {
+                    redimensionarCanvas(canvas_invisible);
+                    drawImage(image, context_canvas_invisible);
+                    isImageBig(image, canvas) ? drawScaledImage(image, context) : drawImage(image, context);
+                    filtro(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
+                }
             }
+            // Por si se clickea en "Descartar imagen" e inmediatamente se elige la misma imagen
+            input_select_image.value = null;
+    
+            // Se permiten los filtros
+            document.querySelector(".js-filtros").classList.remove("oculto");    
         }
-        // Por si se clickea en "Descartar imagen" e inmediatamente se elige la misma imagen
-        input_select_image.value = null;
-
-        // Se permiten los filtros
-        document.querySelector(".js-filtros").classList.remove("oculto");
     })
 
     function clearCanvas(canvas) {

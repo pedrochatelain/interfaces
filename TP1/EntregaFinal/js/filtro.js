@@ -1,5 +1,4 @@
 function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage) {
-
     let boton_filtro_negativo = document.querySelector(".js-filtro-negativo");
     let boton_filtro_brillo = document.querySelector(".js-filtro-brillo");
     let boton_filtro_grayscale = document.querySelector(".js-filtro-grayscale");
@@ -7,6 +6,13 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
     let boton_filtro_blur = document.querySelector(".js-filtro-blur");
     let boton_filtro_nitidez = document.querySelector(".js-filtro-sharpen");
     let boton_filtro_bordes = document.querySelector(".js-filtro-bordes");
+    let boton_filtro_ninguno = document.querySelector(".js-filtro-none");
+    let imageDataOriginal = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
+
+    boton_filtro_ninguno.addEventListener("click", function() {
+        context_canvas_invisible.putImageData(imageDataOriginal, 0, 0);
+        isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
+    })
     
     boton_filtro_negativo.addEventListener("click", function() { setFiltro(getNegativoPixel) });
 
@@ -91,16 +97,15 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
     /* Aplica un filtro a cada pixel del canvas invisible. Por parámetro
        se pasa la función que se le quiere aplicar al pixel. */
     function setFiltro(getPixelModificado) {
-
-        let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
-        let imageDataConFiltro = imageData;
+        let imageData = copyImageData(context_canvas_invisible, imageDataOriginal);
+        data = imageData.data;
         for (let j = 0; j < canvas_invisible.height; j++) {
             for (let i = 0; i < canvas_invisible.width; i++) {
                 let index = (i + canvas_invisible.width * j) * 4;
 
-                let red = imageDataConFiltro.data[index + 0];
-                let green = imageDataConFiltro.data[index + 1];
-                let blue = imageDataConFiltro.data[index + 2];
+                let red = data[index + 0];
+                let green = data[index + 1];
+                let blue = data[index + 2];
 
                 let pixel = {
                     'r' : red,
@@ -110,25 +115,30 @@ function filtro(canvas, context, canvas_invisible, context_canvas_invisible, isI
 
                 let pixel_modificado = getPixelModificado(pixel)
                 
-                imageDataConFiltro.data[index + 0] = pixel_modificado.r;
-                imageDataConFiltro.data[index + 1] = pixel_modificado.g;
-                imageDataConFiltro.data[index + 2] = pixel_modificado.b;
+                data[index + 0] = pixel_modificado.r;
+                data[index + 1] = pixel_modificado.g;
+                data[index + 2] = pixel_modificado.b;
             }
         }
-        context_canvas_invisible.putImageData(imageDataConFiltro, 0, 0);
+        context_canvas_invisible.putImageData(imageData, 0, 0);
         isImageBig(canvas_invisible, canvas) ? drawScaledImage(canvas_invisible, context) : drawImage(canvas_invisible, context);
-
     }
-    
+
+    function copyImageData(ctx, src) {
+        var dst = ctx.createImageData(src.width, src.height);
+        dst.data.set(src.data);
+        return dst;
+    }
+        
     // Dado un kernel (matriz) aplica un filtro a la imagen 
     function setFiltroMatriz(kernel) {
 
-        let imageData = context_canvas_invisible.getImageData(0, 0, canvas_invisible.width, canvas_invisible.height);
+        let imageData = copyImageData(context_canvas_invisible, imageDataOriginal);
         let size = Math.sqrt(kernel.length);
         let half = Math.floor(size / 2);
         let width = canvas_invisible.width;
         let height = canvas_invisible.height;
-        let inputData = context_canvas_invisible.getImageData(0, 0, width, height).data;
+        let inputData = imageDataOriginal.data;
         let outputData = imageData.data;
         let pixelsAbove;
         let weight;

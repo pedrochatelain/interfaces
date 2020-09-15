@@ -16,8 +16,6 @@ function init() {
 
     imagen(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
 
-    filtro(canvas, context, canvas_invisible, context_canvas_invisible, isImageBig, drawScaledImage, drawImage);
-
     // devuelve true si las dimensiones de una imagen superan a las del canvas
     function isImageBig(image, canvas) {
         return canvas.height < image.height || canvas.width < image.width;
