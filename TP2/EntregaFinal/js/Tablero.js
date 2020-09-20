@@ -1,8 +1,8 @@
 class Tablero {
 
-    constructor(canvas, nro_filas, nro_columnas) {
+    constructor(canvas, context, nro_filas, nro_columnas) {
         this.canvas = canvas;
-        this.context = canvas.getContext("2d");
+        this.context = context;
         this.filas = nro_filas;
         this.columnas = nro_columnas;
     }
@@ -22,7 +22,6 @@ class Tablero {
             }
         }
 
-        
     }
     
     #drawCell(x, y, cell_width, cell_height) {
@@ -45,7 +44,3 @@ class Tablero {
     }
 
 }
-
-let canvas = document.querySelector(".js-canvas");
-let context = canvas.getContext("2d");
-myTablero = new Tablero(canvas, 6, 7);
