@@ -3,10 +3,56 @@ class Juego {
     constructor(canvas, context) {
         this.canvas = canvas;
         this.context = context;
-        this.tablero = new Tablero(this.canvas, this.context, 6, 7)
+        this.tablero;
         this.fichas = [];
-        this.current_mouse_position;
-        this.old_mouse_position;
+        this.checkFiguras();
+    }
+
+    checkFiguras() {
+        let juego = this;
+        let canvas = this.canvas;
+        let ficha_clickeada;
+        let offset = {}
+        this.canvas.addEventListener("mousedown", (e) => {
+            let click_position = getClickPosition(e)
+            if (this.isFichaClickeada(click_position.x, click_position.y)) {
+                ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
+                this.canvas.addEventListener("mousemove", onMouseMove);
+                this.canvas.addEventListener("mouseup", onMouseUp);
+                // para que no haga drag desde el centro de la ficha defino "offset"
+                offset.x = click_position.x - ficha_clickeada.getX(); 
+                offset.y = click_position.y - ficha_clickeada.getY();
+            }
+
+        })
+
+        function getClickPosition(e) {
+            let rect = canvas.getBoundingClientRect();
+            let _x = e.clientX - rect.left;
+            let _y = e.clientY - rect.top;      
+            let position = {
+                x: _x,
+                y: _y
+            }
+            return position;
+        }
+
+        function onMouseMove(e) {
+            let click_position = getClickPosition(e)
+            let ficha_x_position = click_position.x - offset.x;
+            let ficha_y_position = click_position.y - offset.y;
+            ficha_clickeada.draw(ficha_x_position, ficha_y_position);
+            juego.reDraw(ficha_clickeada);
+        }
+    
+        function onMouseUp() {
+            canvas.removeEventListener("mousemove", onMouseMove);
+            canvas.removeEventListener("mouseup", onMouseUp);
+            if (juego.tablero.isFichaEnRampa(ficha_clickeada)) {
+                juego.tablero.drawFicha(ficha_clickeada)
+            }
+            
+        }
 
     }
 
@@ -14,56 +60,39 @@ class Juego {
         this.fichas.push(ficha);
     }
     
-    getMousePosition(e) {
-        let rect = canvas.getBoundingClientRect(); 
-        let _x = e.clientX - rect.left; 
-        let _y = e.clientY - rect.top; 
-
-        const pos = {
-            x: _x,
-            y: _y
-        }
-
-        return pos;
+    addTablero(tablero) {
+        this.tablero = tablero;
     }
 
-    listenToMouseDown() {
-        this.canvas.addEventListener("mousedown", (e) => {
-            this.current_mouse_position = this.getMousePosition(e);
-            this.fichas.forEach(ficha => {
-                if (ficha.isClicked(this.current_mouse_position)) {
-                    ficha.setDragging(true);
-                    this.listenToMouseMove(ficha);
-                };
-            });
-        })
-    }
-
-    listenToMouseMove(ficha) {
-        this.canvas.addEventListener("mousemove", (e) => {
-            this.old_mouse_position = this.current_mouse_position;
-            this.current_mouse_position = this.getMousePosition(e);
-            let distance = {
-                x: this.current_mouse_position.x - this.old_mouse_position.x,
-                y: this.current_mouse_position.y - this.old_mouse_position.y
+    getFichaClickeada(x, y) {
+        for (let i = 0; i < this.fichas.length; i++) {
+            if (this.fichas[i].isClicked(x, y)) {
+                return this.fichas[i];
             }
-
-            let pos_x_ficha = ficha.getX() + distance.x;
-            let pos_y_ficha = ficha.getY() + distance.y;
-
-            ficha.draw(pos_x_ficha, pos_y_ficha)
-            this.reDraw()
-        })
+        }
+        return null;
     }
 
-    reDraw() {
+    isFichaClickeada(x, y) {
+
+        for (let i = 0; i < this.fichas.length; i++) {
+            if (this.fichas[i].isClicked(x, y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
+    reDraw(ficha) {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        // redraw each rect in the rects[] array
+        ficha.draw(ficha.getX(), ficha.getY())
         this.fichas.forEach(ficha => {
             let x = ficha.getX();
             let y = ficha.getY();
             ficha.draw(x, y);
         });
     }
+
 
 }
