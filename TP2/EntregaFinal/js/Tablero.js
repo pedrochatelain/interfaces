@@ -22,7 +22,6 @@ class Tablero {
                 "y" : y
             })
         }
-        console.log(this.rampas)
     }
 
     createEmptyMatrix(filas, columnas) {
@@ -51,7 +50,7 @@ class Tablero {
                         'y' : y,
                         'width' : cell_width,
                         'height' : cell_height,
-                        "hayFicha" : false
+                        "tieneFicha" : false
                     }
             }
         }
@@ -59,17 +58,6 @@ class Tablero {
         this.definirRampas()
         console.log(this.celdas)
     }
-
-    // addFicha(ficha, x, y) {
-    //     ficha.draw(x, y)
-    // }
-
-    // seQuiereAgregar(ficha) {
-    //     for (let i = 0; i < this.rampas.length; i++) {
-    //         let rampa_actual = this.rampas[i];
-    //         if (ficha.getX() == rampa_actual.x)
-    //     }
-    // }
     
     #drawCell(x, y, cell_width, cell_height, context) {
 
@@ -115,9 +103,32 @@ class Tablero {
 
     drawFicha(ficha) {
         let columna = this.getColumna(ficha);
-        let x = this.celdas[this.filas-1][columna].x;
-        let y = this.celdas[this.filas-1][columna].y;
-        ficha.draw(x, y)
+        let celda_libre = this.getCeldaLibre(columna);
+        let centro_celda = this.getCentro(celda_libre);
+        ficha.draw(centro_celda.x, centro_celda.y)
     }
+
+    getCeldaLibre(columna) {
+        for (let i = this.filas - 1; i > -1; i--) {
+            let celda_actual = this.celdas[i][columna];
+            if ( ! celda_actual.tieneFicha) {
+                console.log(celda_actual)
+                celda_actual.tieneFicha = true;
+                return celda_actual
+
+            }
+        }
+        return null;
+    }
+
+    getCentro(celda) {
+        let centro = {};
+        centro.x = celda.x + celda.width / 2;
+        centro.y = celda.y + celda.height / 2;
+        console.log(centro)
+        return centro;
+    }
+
+
 
 }
