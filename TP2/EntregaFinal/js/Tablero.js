@@ -5,9 +5,14 @@ class Tablero {
         this.context = context;
         this.filas = nro_filas;
         this.columnas = nro_columnas;
-        this.createEmptyMatrix(this.filas, this.columnas)
-        this.celdas;
+        this.celdas = [];
         this.rampas = [];
+    }
+
+    draw() {
+        this.setCeldas();
+        this.dibujarCeldas();
+        this.definirRampas();
     }
     
     definirRampas() {
@@ -24,58 +29,53 @@ class Tablero {
         }
     }
 
-    createEmptyMatrix(filas, columnas) {
-        var matrix = [];
-        for(var i=0; i<filas; i++) {
-            matrix[i] = new Array(columnas);
+    setCeldas() {
+
+        let padding_left = this.canvas.width * 0.22;
+        let padding_right = this.canvas.width * 0.22;
+        let padding_top = this.canvas.height * 0.15;
+        let cell_width = (this.canvas.width - padding_left - padding_right) / this.columnas;
+        let cell_height = (this.canvas.height - padding_top) / this.filas;
+        let celdas = [];
+
+        // Define las propiedades de cada celda y las agrupa en un arreglo
+        for (let columna = padding_top; columna < canvas.height; columna += cell_height) {
+            for (let fila = padding_left; fila < canvas.width - padding_right; fila += cell_width) {
+                let celda = new Celda(fila, columna, cell_width, cell_height, this.context)
+                    celdas.push(celda);
+                }
         }
-        this.celdas = matrix;
+
+        // Coloca las celdas dentro de una matriz (para poder acceder por fila y columna) 
+        this.celdas = this.listToMatrix(celdas, this.columnas)
+
     }
 
-    draw() {
-        
-        let padding_left = canvas.width * 0.22;
-        let padding_right = canvas.width * 0.22;
-        let padding_top = canvas.height * 0.15;
-        let cell_width = (canvas.width - padding_left - padding_right) / this.columnas;
-        let cell_height = (canvas.height - padding_top) / this.filas;
+    dibujarCeldas() {
+        for (let i = 0; i < this.filas; i++) {
+            for (let j = 0; j < this.columnas; j++) {
 
-        
-        for (let x = padding_left, i = 0; x < canvas.width - padding_right; x += cell_width, i++) {
-            for (let y = padding_top, j = 0; y < canvas.height; y += cell_height, j++) {
-                this.#drawCell(x, y, cell_width, cell_height, this.context);
-                this.celdas[j][i] =
-                    {
-                        'x' : x,
-                        'y' : y,
-                        'width' : cell_width,
-                        'height' : cell_height,
-                        "tieneFicha" : false
-                    }
+                this.celdas[i][j].draw();
             }
         }
+    }
 
-        this.definirRampas()
-        console.log(this.celdas)
+    listToMatrix(list, elementsPerSubArray) {
+        var matrix = [], i, k;
+    
+        for (i = 0, k = -1; i < list.length; i++) {
+            if (i % elementsPerSubArray === 0) {
+                k++;
+                matrix[k] = [];
+            }
+    
+            matrix[k].push(list[i]);
+        }
+    
+        return matrix;
     }
     
-    #drawCell(x, y, cell_width, cell_height, context) {
-
-        let image = new Image();
-
-        image.src = "cell_img.png";
-        image.onload = function() {
-            // Dibuja la imagen que representa a una celda en el canvas invisible
-            let canvas_img = document.querySelector(".js-img");
-            let context_img = canvas_img.getContext("2d");
-            canvas_img.width = cell_width;
-            canvas_img.height = cell_height;
-            context_img.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas_img.width, canvas_img.height);
-            // Dibuja el canvas invisible (que es igual a la imagen) en la posicion x, y
-            context.drawImage(canvas_img, x, y)
-            
-        }
-    }
+    
 
     isFichaEnRampa(ficha) {
         let circle = new Path2D();
@@ -104,15 +104,16 @@ class Tablero {
     drawFicha(ficha) {
         let columna = this.getColumna(ficha);
         let celda_libre = this.getCeldaLibre(columna);
-        let centro_celda = this.getCentro(celda_libre);
-        ficha.draw(centro_celda.x, centro_celda.y)
+        if (celda_libre) {
+            let centro_celda = celda_libre.getCentro();
+            ficha.draw(centro_celda.x, centro_celda.y)
+        }
     }
 
     getCeldaLibre(columna) {
         for (let i = this.filas - 1; i > -1; i--) {
             let celda_actual = this.celdas[i][columna];
             if ( ! celda_actual.tieneFicha) {
-                console.log(celda_actual)
                 celda_actual.tieneFicha = true;
                 return celda_actual
 
@@ -121,13 +122,7 @@ class Tablero {
         return null;
     }
 
-    getCentro(celda) {
-        let centro = {};
-        centro.x = celda.x + celda.width / 2;
-        centro.y = celda.y + celda.height / 2;
-        console.log(centro)
-        return centro;
-    }
+    
 
 
 

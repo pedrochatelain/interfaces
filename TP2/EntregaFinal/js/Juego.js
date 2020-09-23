@@ -1,11 +1,12 @@
 class Juego {
 
-    constructor(canvas, context) {
+    constructor(canvas, context, tablero) {
         this.canvas = canvas;
         this.context = context;
-        this.tablero;
+        this.tablero = tablero;
         this.fichas = [];
         this.checkFiguras();
+        this.tablero.draw();
     }
 
     checkFiguras() {
@@ -13,6 +14,8 @@ class Juego {
         let canvas = this.canvas;
         let ficha_clickeada;
         let offset = {}
+        let tablero = this.tablero;
+
         this.canvas.addEventListener("mousedown", (e) => {
             let click_position = getClickPosition(e)
             if (this.isFichaClickeada(click_position.x, click_position.y)) {
@@ -48,8 +51,9 @@ class Juego {
         function onMouseUp() {
             canvas.removeEventListener("mousemove", onMouseMove);
             canvas.removeEventListener("mouseup", onMouseUp);
-            if (juego.tablero.isFichaEnRampa(ficha_clickeada)) {
-                juego.tablero.drawFicha(ficha_clickeada)
+            if (tablero.isFichaEnRampa(ficha_clickeada)) {
+                ficha_clickeada.borrar();
+                tablero.drawFicha(ficha_clickeada)
             }
             
         }

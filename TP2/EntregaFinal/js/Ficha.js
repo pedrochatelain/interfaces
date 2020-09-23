@@ -5,7 +5,7 @@ class Ficha {
         this.posicionY;
         this.context = context;
         this.image = document.createElement("img");
-        this.image.src = "red.jpg"
+        this.image.src = "img/red.jpg"
         this.radio = radio;
         this.isDragging = false;
     }
@@ -49,6 +49,14 @@ class Ficha {
 
     setY(y) {
         this.posicionY = y;
+    }
+
+    borrar() {
+        console.log(this.posicionX);
+        console.log(this.posicionY)
+        this.context.arc(this.posicionX, this.posicionY, this.radio, 0, Math.PI * 2);
+        this.context.fillStyle = "#FFFFFF"
+        this.context.fill();
     }
  
 }
