@@ -113,16 +113,24 @@ class Tablero {
     getCeldaLibre(columna) {
         for (let i = this.filas - 1; i > -1; i--) {
             let celda_actual = this.celdas[i][columna];
-            if ( ! celda_actual.tieneFicha) {
-                celda_actual.tieneFicha = true;
+            if ( ! celda_actual.isFull()) {
+                celda_actual.setFull();
                 return celda_actual
-
             }
         }
         return null;
     }
 
-    
+    hayLugar(columna) {
+        for (let i = this.filas - 1; i > -1; i--) {
+            let celda_actual = this.celdas[i][columna];
+            if ( ! celda_actual.isFull()) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 
 
 

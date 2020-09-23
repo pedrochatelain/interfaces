@@ -37,4 +37,12 @@ class Celda {
 
     }
 
+    isFull() {
+        return this.tieneFicha;
+    }
+
+    setFull() {
+        this.tieneFicha = true;
+    }
+
 }

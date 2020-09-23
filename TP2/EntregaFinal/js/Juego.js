@@ -17,14 +17,17 @@ class Juego {
         let tablero = this.tablero;
 
         this.canvas.addEventListener("mousedown", (e) => {
-            let click_position = getClickPosition(e)
-            if (this.isFichaClickeada(click_position.x, click_position.y)) {
+            let click_position = getClickPosition(e);
+            let seClickeoFicha = this.isFichaClickeada(click_position.x, click_position.y)
+            if (seClickeoFicha) {
                 ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
-                this.canvas.addEventListener("mousemove", onMouseMove);
-                this.canvas.addEventListener("mouseup", onMouseUp);
-                // para que no haga drag desde el centro de la ficha defino "offset"
-                offset.x = click_position.x - ficha_clickeada.getX(); 
-                offset.y = click_position.y - ficha_clickeada.getY();
+                if (! ficha_clickeada.fueColocadaEnTablero()) {
+                    this.canvas.addEventListener("mousemove", onMouseMove);
+                    this.canvas.addEventListener("mouseup", onMouseUp);
+                    // para que no haga drag desde el centro de la ficha defino "offset"
+                    offset.x = click_position.x - ficha_clickeada.getX(); 
+                    offset.y = click_position.y - ficha_clickeada.getY();
+                }
             }
 
         })
@@ -52,8 +55,12 @@ class Juego {
             canvas.removeEventListener("mousemove", onMouseMove);
             canvas.removeEventListener("mouseup", onMouseUp);
             if (tablero.isFichaEnRampa(ficha_clickeada)) {
-                ficha_clickeada.borrar();
-                tablero.drawFicha(ficha_clickeada)
+                let columna_ficha = tablero.getColumna(ficha_clickeada)
+                if (tablero.hayLugar(columna_ficha)) {
+                    ficha_clickeada.borrar();
+                    tablero.drawFicha(ficha_clickeada);
+                    ficha_clickeada.setColocada();
+                }
             }
             
         }

@@ -8,6 +8,7 @@ class Ficha {
         this.image.src = "img/red.jpg"
         this.radio = radio;
         this.isDragging = false;
+        this.fueColocada = false;
     }
 
     draw(x, y) {
@@ -52,11 +53,26 @@ class Ficha {
     }
 
     borrar() {
+        this.context.beginPath();
         console.log(this.posicionX);
         console.log(this.posicionY)
         this.context.arc(this.posicionX, this.posicionY, this.radio, 0, Math.PI * 2);
         this.context.fillStyle = "#FFFFFF"
         this.context.fill();
+        this.context.lineWidth = 2;
+        this.context.strokeStyle = "#FFFFFF";
+        this.context.stroke();
+    
+        this.context.closePath();
+
+    }
+
+    setColocada() {
+        this.fueColocada = true;
     }
  
+    fueColocadaEnTablero() {
+        return this.fueColocada;
+    }
+
 }
