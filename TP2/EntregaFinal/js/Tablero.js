@@ -7,6 +7,11 @@ class Tablero {
         this.columnas = nro_columnas;
         this.celdas = [];
         this.rampas = [];
+        this.fichas_colocadas = 0;
+    }
+
+    getCantFichas() {
+        return this.fichas_colocadas;
     }
 
     draw() {
@@ -105,8 +110,10 @@ class Tablero {
         let columna = this.getColumna(ficha);
         let celda_libre = this.getCeldaLibre(columna);
         if (celda_libre) {
+            celda_libre.setFicha(ficha);
             let centro_celda = celda_libre.getCentro();
-            ficha.draw(centro_celda.x, centro_celda.y)
+            ficha.draw(centro_celda.x, centro_celda.y);
+            this.fichas_colocadas++;
         }
     }
 

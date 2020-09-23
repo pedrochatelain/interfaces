@@ -1,14 +1,15 @@
 class Ficha {
 
-    constructor(context, radio) {
+    constructor(context, radio, jugador, image_source) {
         this.posicionX;
         this.posicionY;
         this.context = context;
         this.image = document.createElement("img");
-        this.image.src = "img/red.jpg"
+        this.image.src = image_source;
         this.radio = radio;
         this.isDragging = false;
         this.fueColocada = false;
+        this.jugador = jugador;
     }
 
     draw(x, y) {
@@ -19,6 +20,10 @@ class Ficha {
             this.context.fillStyle = pat
             this.context.fill();
             this.context.closePath();
+            this.context.lineWidth = 1;
+            this.context.strokeStyle = "#000000";
+            this.context.stroke();
+    
         // };
         this.posicionX = x;
         this.posicionY = y;
@@ -54,12 +59,10 @@ class Ficha {
 
     borrar() {
         this.context.beginPath();
-        console.log(this.posicionX);
-        console.log(this.posicionY)
         this.context.arc(this.posicionX, this.posicionY, this.radio, 0, Math.PI * 2);
         this.context.fillStyle = "#FFFFFF"
         this.context.fill();
-        this.context.lineWidth = 2;
+        this.context.lineWidth = 3;
         this.context.strokeStyle = "#FFFFFF";
         this.context.stroke();
     

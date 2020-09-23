@@ -5,16 +5,19 @@ class Juego {
         this.context = context;
         this.tablero = tablero;
         this.fichas = [];
-        this.checkFiguras();
-        this.tablero.draw();
     }
 
-    checkFiguras() {
+    jugar() {
         let juego = this;
         let canvas = this.canvas;
         let ficha_clickeada;
         let offset = {}
         let tablero = this.tablero;
+
+        tablero.draw()
+
+        // juego.dibujarFichas(1050, 550);
+        juego.dibujarFichas("izq")
 
         this.canvas.addEventListener("mousedown", (e) => {
             let click_position = getClickPosition(e);
@@ -67,6 +70,22 @@ class Juego {
 
     }
 
+    dibujarFichas(lado) {
+
+        let randomNumber = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
+
+        for (let i = 0; i < this.fichas.length; i++) {
+            if (lado == "izq") {
+                let ficha = this.fichas[i];
+                let x_random = randomNumber(ficha.radio, this.canvas.width / 6)
+                let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
+                ficha.draw(x_random, y_random)
+            }
+        }
+    }
+
     addFicha(ficha) {
         this.fichas.push(ficha);
     }
@@ -76,7 +95,7 @@ class Juego {
     }
 
     getFichaClickeada(x, y) {
-        for (let i = 0; i < this.fichas.length; i++) {
+        for (let i = this.fichas.length-1; i > -1; i--) {
             if (this.fichas[i].isClicked(x, y)) {
                 return this.fichas[i];
             }

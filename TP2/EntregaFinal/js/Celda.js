@@ -7,8 +7,13 @@ class Celda {
         this.height = height;
         this.context = context;
         this.tieneFicha = false;
+        this.ficha = null;
         this.image = new Image();
         this.image.src = "img/cell_img.png"
+    }
+
+    setFicha(ficha) {
+        this.ficha = ficha;
     }
 
     // Devuelve las coordenadas (x, y) del centro del rectángulo
