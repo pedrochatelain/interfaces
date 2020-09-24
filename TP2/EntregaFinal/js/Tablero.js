@@ -3,8 +3,8 @@ class Tablero {
     constructor(canvas, context, nro_filas, nro_columnas) {
         this.canvas = canvas;
         this.context = context;
-        this.filas = nro_filas;
-        this.columnas = nro_columnas;
+        this.cantidad_filas = nro_filas;
+        this.cantidad_columnas = nro_columnas;
         this.celdas = [];
         this.rampas = [];
         this.fichas_colocadas = 0;
@@ -23,7 +23,7 @@ class Tablero {
     definirRampas() {
         let x;
         let y;
-        for (let i = 0; i < this.columnas; i++) {
+        for (let i = 0; i < this.cantidad_columnas; i++) {
             let celda_actual = this.celdas[0][i];
             x = celda_actual.x + (celda_actual.width / 2);
             y = celda_actual.y - celda_actual.height;
@@ -39,8 +39,8 @@ class Tablero {
         let padding_left = this.canvas.width * 0.22;
         let padding_right = this.canvas.width * 0.22;
         let padding_top = this.canvas.height * 0.15;
-        let cell_width = (this.canvas.width - padding_left - padding_right) / this.columnas;
-        let cell_height = (this.canvas.height - padding_top) / this.filas;
+        let cell_width = (this.canvas.width - padding_left - padding_right) / this.cantidad_columnas;
+        let cell_height = (this.canvas.height - padding_top) / this.cantidad_filas;
         let celdas = [];
 
         // Define las propiedades de cada celda y las agrupa en un arreglo
@@ -52,15 +52,17 @@ class Tablero {
         }
 
         // Coloca las celdas dentro de una matriz (para poder acceder por fila y columna) 
-        this.celdas = this.listToMatrix(celdas, this.columnas)
+        this.celdas = this.listToMatrix(celdas, this.cantidad_columnas)
 
     }
 
     dibujarCeldas() {
-        for (let i = 0; i < this.filas; i++) {
-            for (let j = 0; j < this.columnas; j++) {
-
-                this.celdas[i][j].draw();
+        for (let i = 0; i < this.cantidad_filas; i++) {
+            for (let j = 0; j < this.cantidad_columnas; j++) {
+                let celda_actual = this.celdas[i][j];
+                celda_actual.setFila(i);
+                celda_actual.setColumna(j);
+                celda_actual.draw();
             }
         }
     }
@@ -118,7 +120,7 @@ class Tablero {
     }
 
     getCeldaLibre(columna) {
-        for (let i = this.filas - 1; i > -1; i--) {
+        for (let i = this.cantidad_filas - 1; i > -1; i--) {
             let celda_actual = this.celdas[i][columna];
             if ( ! celda_actual.isFull()) {
                 celda_actual.setFull();
@@ -129,9 +131,9 @@ class Tablero {
     }
 
     hayLugar(columna) {
-        for (let i = this.filas - 1; i > -1; i--) {
+        for (let i = 0; i < this.cantidad_filas; i++) {
             let celda_actual = this.celdas[i][columna];
-            if ( ! celda_actual.isFull()) {
+            if ( ! celda_actual.isFull() ) {
                 return true;
             }
         }
@@ -139,6 +141,345 @@ class Tablero {
 
     }
 
+    seGano(ficha, linea_ganadora) {
+        // Calculo cuántos turnos tienen que pasar para que pueda haber un ganador
+        let turnos_para_ganar = linea_ganadora * 2 - 1;
+        if (this.getCantFichas() >= turnos_para_ganar) {
+            let celda_ficha = this.getCelda(ficha);
+            let jugador = celda_ficha.getFicha().getJugador();
+            if (this.checkLeft(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+            if (this.checkRight(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+            if (this.checkDown(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+            if (this.checkIzquierdaAbajo(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+            if (this.checkDerechaAbajo(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+            if (this.checkIzquierdaArriba(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+            if (this.checkDerechaArriba(celda_ficha, linea_ganadora, jugador)) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
+
+    // Dada una celda checkea si hay una x cantidad de fichas a la izquierda que pertenezcan a un mismo jugador
+    checkLeft(celda, linea_ganadora, jugador) {
+        if (this.cantCeldasIzquierda(celda) >= linea_ganadora - 1) {
+
+            let racha = 0;
+            let j = celda.getColumna() - 1;
+
+            while (j >= 0 && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[celda.getFila()][j];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                j--;
+            }
+            
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+        } else {
+            return false
+        }
+
+    }
+
+    checkRight(celda, linea_ganadora, jugador) {
+        if (this.cantCeldasDerecha(celda) >= linea_ganadora - 1) {
+
+            let racha = 0;
+            let j = celda.getColumna() + 1;
+
+            while (j < this.cantidad_columnas && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[celda.getFila()][j];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                j++;
+            }
+            
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+        } else {
+            return false
+        }
+    }
+
+    checkDown(celda, linea_ganadora, jugador) {
+        if (this.cantCeldasAbajo(celda) >= linea_ganadora - 1) {
+
+            let racha = 0;
+            let i = celda.getFila() + 1;
+
+            while (i < this.cantidad_filas && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[i][celda.getColumna()];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                i++;
+            }
+            
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+        } else {
+            return false
+        }
+    }
+
+    checkIzquierdaAbajo(celda, linea_ganadora, jugador) {
+
+        if (this.espaciosIzquierdaAbajo(celda) >= linea_ganadora - 1) {
+
+            let racha = 0;
+            let i = celda.getFila() + 1;
+            let j = celda.getColumna() - 1;
+
+            while (i < this.cantidad_filas && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[i][j];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                i++;
+                j--;
+            }
+            
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+
+    }
+
+    cantCeldasIzquierda(celda) {        
+        return celda.getColumna();
+    }
+
+    cantCeldasDerecha(celda) {
+        return (this.celdas[0].length - 1) - celda.getColumna();
+    }
+
+    cantCeldasAbajo(celda) {
+        return (this.celdas.length - 1) - celda.getFila();
+    }
+
+    espaciosIzquierdaAbajo(celda) {
+
+        let extremo_vertical = 0;
+        let extremo_horizontal = this.cantidad_filas - 1;
+        let i = celda.getFila();
+        let j = celda.getColumna();
+        let cant = 0;
+
+        while (i < extremo_horizontal && j > extremo_vertical) {
+            i++;
+            j--;
+            cant++;
+        }
+        
+        return cant;
+
+    }
+
+    espaciosDerechaAbajo(celda) {
+
+        let extremo_vertical = this.cantidad_columnas - 1;
+        let extremo_horizontal = this.cantidad_filas - 1;
+        let i = celda.getFila();
+        let j = celda.getColumna();
+        let cant = 0;
+
+        while (i < extremo_horizontal && j < extremo_vertical) {
+            i++;
+            j++;
+            cant++;
+        }
+        
+        return cant;
+
+    }
+
+    checkDerechaAbajo(celda, linea_ganadora, jugador) {
+        if (this.espaciosDerechaAbajo(celda) >= linea_ganadora - 1) {
+            let racha = 0;
+            let i = celda.getFila() + 1;
+            let j = celda.getColumna() + 1;
+            while (i < this.cantidad_filas && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[i][j];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                i++;
+                j++;
+            }
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    espaciosIzquierdaArriba(celda) {
+        let extremo_vertical = 0;
+        let extremo_horizontal = 0;
+        let i = celda.getFila();
+        let j = celda.getColumna();
+        let cant = 0;
+        while (i > extremo_horizontal && j > extremo_vertical) {
+            i--;
+            j--;
+            cant++;
+        }
+        return cant;
+    }
+
+    checkIzquierdaArriba(celda, linea_ganadora, jugador) {
+        if (this.espaciosIzquierdaArriba(celda) >= linea_ganadora - 1) {
+            let racha = 0;
+            let i = celda.getFila() - 1;
+            let j = celda.getColumna() - 1;
+            while (i < this.cantidad_filas && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[i][j];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                i--;
+                j--;
+            }
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    espaciosDerechaArriba(celda) {
+        let extremo_vertical = this.cantidad_columnas - 1;
+        let extremo_horizontal = 0;
+        let i = celda.getFila();
+        let j = celda.getColumna();
+        let cant = 0;
+        while (i > extremo_horizontal && j < extremo_vertical) {
+            i--;
+            j++;
+            cant++;
+        }
+        return cant;
+    }
+
+    checkDerechaArriba(celda, linea_ganadora, jugador) {
+        if (this.espaciosDerechaArriba(celda) >= linea_ganadora - 1) {
+            let racha = 0;
+            let i = celda.getFila() - 1;
+            let j = celda.getColumna() + 1;
+            while (i < this.cantidad_filas && racha != linea_ganadora - 1) {
+                let celda_actual = this.celdas[i][j];
+                if (celda_actual.getFicha() == null) {
+                    return false;
+                }
+                let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                if (jugador !== jugador_celda_actual) {
+                    return false;
+                } else {
+                    racha++;
+                }
+                i--;
+                j++;
+            }
+            if (racha == linea_ganadora - 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    getCelda(ficha) {
+        for (let i = 0; i < this.cantidad_filas; i++) {
+            for (let j = 0; j < this.cantidad_columnas; j++) {
+                let celda_actual = this.celdas[i][j];
+                if (celda_actual.getFicha() === ficha) {
+                    return celda_actual;
+                }
+            }
+        }
+        return null;
+    }
 
 }

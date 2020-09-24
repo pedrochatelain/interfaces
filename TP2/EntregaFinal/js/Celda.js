@@ -10,10 +10,28 @@ class Celda {
         this.ficha = null;
         this.image = new Image();
         this.image.src = "img/cell_img.png"
+        this.fila;
+        this.columna;
     }
 
     setFicha(ficha) {
         this.ficha = ficha;
+    }
+
+    getFila() {
+        return this.fila;
+    }
+
+    getColumna() {
+        return this.columna;
+    }
+
+    setFila(fila) {
+        this.fila = fila;
+    }
+
+    setColumna(col) {
+        this.columna = col;
     }
 
     // Devuelve las coordenadas (x, y) del centro del rectángulo
@@ -22,6 +40,14 @@ class Celda {
         centro.x = this.x + this.width / 2;
         centro.y = this.y + this.height / 2;
         return centro;
+    }
+
+    getX() {
+        return this.x;
+    }
+
+    getY() {
+        return this.y;
     }
 
     draw() {
@@ -48,6 +74,10 @@ class Celda {
 
     setFull() {
         this.tieneFicha = true;
+    }
+
+    getFicha() {
+        return this.ficha;
     }
 
 }

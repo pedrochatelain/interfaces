@@ -8,7 +8,8 @@ class Juego {
         this.jugador1 = jugador1;
         this.jugador2 = jugador2;
         this.hayGanador = false;
-        this.turnoActual = this.jugador1;
+        this.jugador_actual = this.jugador1;
+        this.linea_ganadora = 2; // Define cuántas fichas consecutivas tiene que haber para ganar
     }
 
     jugar() {
@@ -27,7 +28,7 @@ class Juego {
             let seClickeoFicha = this.isFichaClickeada(click_position.x, click_position.y)
             if (seClickeoFicha) {
                 ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
-                if (! ficha_clickeada.fueColocadaEnTablero() && ficha_clickeada.getJugador() == this.turnoActual) {
+                if (! ficha_clickeada.fueColocadaEnTablero() && ficha_clickeada.getJugador() == this.jugador_actual) {
                     this.canvas.addEventListener("mousemove", onMouseMove);
                     this.canvas.addEventListener("mouseup", onMouseUp);
                     // para que no haga drag desde el centro de la ficha defino "offset"
@@ -66,7 +67,13 @@ class Juego {
                     ficha_clickeada.borrar();
                     tablero.drawFicha(ficha_clickeada);
                     ficha_clickeada.setColocada();
-                    juego.setTurno()
+                    if (tablero.seGano(ficha_clickeada, juego.linea_ganadora)) {
+                        setTimeout(() => {
+                            alert("¡" + juego.jugador_actual + " ha ganado!");
+                        }, 150);
+                    } else {
+                        juego.setTurno()
+                    }
                 }
             }
             
@@ -75,10 +82,10 @@ class Juego {
     }
 
     setTurno() {
-        if (this.turnoActual == this.jugador1) {
-            this.turnoActual = this.jugador2;
+        if (this.jugador_actual == this.jugador1) {
+            this.jugador_actual = this.jugador2;
         } else {
-            this.turnoActual = this.jugador1;
+            this.jugador_actual = this.jugador1;
         }
     }
 
