@@ -12,6 +12,10 @@ class Ficha {
         this.jugador = jugador;
     }
 
+    getJugador() {
+        return this.jugador;
+    }
+
     draw(x, y) {
         // this.image.onload = function() {
             this.context.beginPath();

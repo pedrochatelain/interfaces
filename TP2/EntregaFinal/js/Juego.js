@@ -1,10 +1,14 @@
 class Juego {
 
-    constructor(canvas, context, tablero) {
+    constructor(canvas, context, tablero, jugador1, jugador2) {
         this.canvas = canvas;
         this.context = context;
         this.tablero = tablero;
         this.fichas = [];
+        this.jugador1 = jugador1;
+        this.jugador2 = jugador2;
+        this.hayGanador = false;
+        this.turnoActual = this.jugador1;
     }
 
     jugar() {
@@ -16,15 +20,14 @@ class Juego {
 
         tablero.draw()
 
-        // juego.dibujarFichas(1050, 550);
-        juego.dibujarFichas("izq")
+        juego.dibujarFichas()
 
         this.canvas.addEventListener("mousedown", (e) => {
             let click_position = getClickPosition(e);
             let seClickeoFicha = this.isFichaClickeada(click_position.x, click_position.y)
             if (seClickeoFicha) {
                 ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
-                if (! ficha_clickeada.fueColocadaEnTablero()) {
+                if (! ficha_clickeada.fueColocadaEnTablero() && ficha_clickeada.getJugador() == this.turnoActual) {
                     this.canvas.addEventListener("mousemove", onMouseMove);
                     this.canvas.addEventListener("mouseup", onMouseUp);
                     // para que no haga drag desde el centro de la ficha defino "offset"
@@ -63,6 +66,7 @@ class Juego {
                     ficha_clickeada.borrar();
                     tablero.drawFicha(ficha_clickeada);
                     ficha_clickeada.setColocada();
+                    juego.setTurno()
                 }
             }
             
@@ -70,19 +74,32 @@ class Juego {
 
     }
 
-    dibujarFichas(lado) {
+    setTurno() {
+        if (this.turnoActual == this.jugador1) {
+            this.turnoActual = this.jugador2;
+        } else {
+            this.turnoActual = this.jugador1;
+        }
+    }
+
+    dibujarFichas() {
 
         let randomNumber = function (min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         };
 
-        for (let i = 0; i < this.fichas.length; i++) {
-            if (lado == "izq") {
-                let ficha = this.fichas[i];
-                let x_random = randomNumber(ficha.radio, this.canvas.width / 6)
-                let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
-                ficha.draw(x_random, y_random)
-            }
+        for (let i = 0; i < this.fichas.length / 2; i++) {
+            let ficha = this.fichas[i];
+            let x_random = randomNumber(ficha.radio, this.canvas.width / 6)
+            let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
+            ficha.draw(x_random, y_random)
+        }
+
+        for (let i = this.fichas.length / 2; i < this.fichas.length; i++) {
+            let ficha = this.fichas[i];
+            let x_random = randomNumber(this.canvas.width / 1.2, this.canvas.width / 1.05)
+            let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
+            ficha.draw(x_random, y_random)
         }
     }
 
