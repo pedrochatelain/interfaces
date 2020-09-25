@@ -67,7 +67,7 @@ class Juego {
                     ficha_clickeada.borrar();
                     tablero.drawFicha(ficha_clickeada);
                     ficha_clickeada.setColocada();
-                    if (tablero.seGano(ficha_clickeada, juego.linea_ganadora)) {
+                    if (tablero.hayLinea(ficha_clickeada, juego.linea_ganadora)) {
                         setTimeout(() => {
                             alert("¡" + juego.jugador_actual + " ha ganado!");
                         }, 150);
