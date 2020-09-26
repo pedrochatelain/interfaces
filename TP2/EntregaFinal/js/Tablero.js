@@ -8,6 +8,8 @@ class Tablero {
         this.celdas = [];
         this.rampas = [];
         this.fichas_colocadas = 0;
+        this.ancho_del_tablero;
+        this.alto_del_tablero;
     }
 
     getCantFichas() {
@@ -16,6 +18,7 @@ class Tablero {
 
     draw() {
         this.setCeldas();
+        this.borrarFondo();
         this.dibujarCeldas();
         this.definirRampas();
     }
@@ -27,7 +30,7 @@ class Tablero {
             let celda_actual = this.celdas[0][i];
             let centro = celda_actual.getCentro();
             x = centro.x;
-            y = centro.y - celda_actual.height;
+            y = centro.y - celda_actual.height - 23;
             this.rampas.push({
                 "x" : x,
                 "y" : y
@@ -39,10 +42,10 @@ class Tablero {
 
         let padding = this.canvas.width / 5;
         let padding_top = this.canvas.height / 6;
-        let ancho_del_tablero = this.canvas.width - padding - padding;
-        let alto_del_tablero = this.canvas.height - padding_top
-        let cell_width = ancho_del_tablero / this.cantidad_columnas;
-        let cell_height = alto_del_tablero / this.cantidad_filas;
+        this.ancho_del_tablero = this.canvas.width - padding - padding;
+        this.alto_del_tablero = this.canvas.height - padding_top
+        let cell_width = this.ancho_del_tablero / this.cantidad_columnas;
+        let cell_height = this.alto_del_tablero / this.cantidad_filas;
         let celdas = [];
         let i = 0;
 
@@ -243,7 +246,6 @@ class Tablero {
                     return false;
                 }
                 let jugador_celda_actual = celda_actual.getFicha().getJugador();
-                console.log(celda_actual)
                 if (jugador !== jugador_celda_actual) {
                     return false;
                 } else {
@@ -265,6 +267,11 @@ class Tablero {
         }
     }
 
+    borrarFondo() {
+        this.context.fillStyle = "#C19A6B";
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
     // Devuelve la cantidad de celdas que hay en una dirección dada (la búsqueda parte desde otra celda)
     cantCeldas(orientacion, celda, self) {
         let tablero = self;
@@ -274,8 +281,6 @@ class Tablero {
             return (tablero.celdas[0].length - 1) - celda.getColumna();
         }
         if (orientacion === "Abajo") {
-            console.log("tablero.celdas.length = "+tablero.celdas.length)
-            console.log(tablero.celdas.length - 1 - celda.getFila())
             return (tablero.celdas.length - 1) - celda.getFila()
         }
         if (orientacion === "Izquierda abajo") { 

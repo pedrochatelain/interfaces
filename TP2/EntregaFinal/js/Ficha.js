@@ -16,10 +16,26 @@ class Ficha {
         return this.jugador;
     }
 
+    draw_first_time(x, y) {
+        let self = this;
+        this.image.onload = e => {
+            let pat = self.context.createPattern(self.image,'repeat');
+            self.context.beginPath();
+            self.context.arc(x, y, this.radio, 0, Math.PI * 2);
+            self.context.fillStyle = pat
+            self.context.fill();
+            self.context.closePath();
+            self.context.lineWidth = 1;
+            self.context.strokeStyle = "#000000";
+            self.context.stroke();
+        };
+        this.posicionX = x;
+        this.posicionY = y;
+    }
+
     draw(x, y) {
-        // this.image.onload = function() {
+        let pat = this.context.createPattern(this.image,'repeat');
             this.context.beginPath();
-            let pat = this.context.createPattern(this.image,'repeat');
             this.context.arc(x, y, this.radio, 0, Math.PI * 2);
             this.context.fillStyle = pat
             this.context.fill();
@@ -27,10 +43,9 @@ class Ficha {
             this.context.lineWidth = 1;
             this.context.strokeStyle = "#000000";
             this.context.stroke();
+            this.posicionX = x;
+            this.posicionY = y;
     
-        // };
-        this.posicionX = x;
-        this.posicionY = y;
     }
 
     getX() {
@@ -64,10 +79,10 @@ class Ficha {
     borrar() {
         this.context.beginPath();
         this.context.arc(this.posicionX, this.posicionY, this.radio, 0, Math.PI * 2);
-        this.context.fillStyle = "#FFFFFF"
+        this.context.fillStyle = "#C19A6B"
         this.context.fill();
         this.context.lineWidth = 3;
-        this.context.strokeStyle = "#FFFFFF";
+        this.context.strokeStyle = "#C19A6B";
         this.context.stroke();
     
         this.context.closePath();

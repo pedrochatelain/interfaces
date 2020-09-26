@@ -22,6 +22,7 @@ class Juego {
 
 
         juego.dibujarFichas()
+        juego.mostrarTurno()
 
         this.canvas.addEventListener("mousedown", (e) => {
             let click_position = getClickPosition(e);
@@ -69,16 +70,35 @@ class Juego {
                     ficha_clickeada.setColocada();
                     if (tablero.hayLinea(ficha_clickeada, juego.linea_ganadora)) {
                         setTimeout(() => {
-                            alert("¡" + juego.jugador_actual + " ha ganado!");
+                            juego.finalizar();
+                            juego.felicitar();
                         }, 150);
                     } else {
                         juego.setTurno()
+                        juego.mostrarTurno()
                     }
                 }
             }
             
         }
 
+    }
+
+    felicitar() {
+        let parrafo = document.querySelector(".js-parrafo-turno");
+        if (this.jugador_actual == "Jugador 1") {
+            parrafo.style = "color : red";
+        } else {
+            parrafo.style = "color: blue";
+        }
+        parrafo.innerHTML = "¡" + this.jugador_actual + " HA GANADO!";
+
+    }
+
+    finalizar() {
+        this.fichas.forEach(ficha => {
+            ficha.setColocada()
+        });
     }
 
     setTurno() {
@@ -99,14 +119,14 @@ class Juego {
             let ficha = this.fichas[i];
             let x_random = randomNumber(ficha.radio, this.canvas.width / 6)
             let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
-            ficha.draw(x_random, y_random)
+            ficha.draw_first_time(x_random, y_random)
         }
 
         for (let i = this.fichas.length / 2; i < this.fichas.length; i++) {
             let ficha = this.fichas[i];
             let x_random = randomNumber(this.canvas.width / 1.2, this.canvas.width / 1.05)
             let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
-            ficha.draw(x_random, y_random)
+            ficha.draw_first_time(x_random, y_random)
         }
     }
 
@@ -116,6 +136,17 @@ class Juego {
     
     addTablero(tablero) {
         this.tablero = tablero;
+    }
+
+    mostrarTurno() {
+        let span = document.querySelector(".js-turno");
+        let parrafo = document.querySelector(".js-parrafo-turno");
+        if (this.jugador_actual == "Jugador 1") {
+            span.innerHTML = this.jugador_actual + " (fichas rojas)";
+        } else {
+            span.innerHTML = this.jugador_actual + " (fichas azules)";
+        }
+        parrafo.classList.remove("hidden");
     }
 
     getFichaClickeada(x, y) {
@@ -140,7 +171,7 @@ class Juego {
     
     reDraw(ficha) {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        ficha.draw(ficha.getX(), ficha.getY())
+        // ficha.draw(ficha.getX(), ficha.getY())
         this.fichas.forEach(ficha => {
             let x = ficha.getX();
             let y = ficha.getY();

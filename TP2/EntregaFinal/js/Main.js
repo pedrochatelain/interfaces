@@ -14,6 +14,7 @@ function init() {
   select.addEventListener("change", function() {
     dimensiones = getDimensiones();
     tablero = new Tablero(canvas_tablero, context_canvas_tablero, dimensiones[0], dimensiones[1])
+    tablero.borrarFondo();
     tablero.draw()
   });
   boton_aceptar.addEventListener("click", function() {
