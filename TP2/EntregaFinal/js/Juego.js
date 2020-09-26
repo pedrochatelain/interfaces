@@ -12,14 +12,13 @@ class Juego {
         this.linea_ganadora = 4; // Define cuántas fichas consecutivas tiene que haber para ganar
         tablero.draw();
     }
-
+    
     jugar() {
         let juego = this;
         let canvas = this.canvas;
         let ficha_clickeada;
         let offset = {}
-        let tablero = this.tablero;
-
+        let tablero = this.tablero;        
 
         juego.dibujarFichas()
         juego.mostrarTurno()
@@ -68,20 +67,30 @@ class Juego {
                     ficha_clickeada.borrar();
                     tablero.drawFicha(ficha_clickeada);
                     ficha_clickeada.setColocada();
-                    if (tablero.hayLinea(ficha_clickeada, juego.linea_ganadora)) {
-                        setTimeout(() => {
-                            juego.finalizar();
-                            juego.felicitar();
-                        }, 150);
+                    if (tablero.hayEspacio()) {
+                        if (tablero.hayLinea(ficha_clickeada, juego.linea_ganadora)) {
+                            setTimeout(() => {
+                                juego.finalizar();
+                                juego.felicitar();
+                            }, 150);
+                        } else {
+                            juego.setTurno()
+                            juego.mostrarTurno()
+                        }
                     } else {
-                        juego.setTurno()
-                        juego.mostrarTurno()
+                        juego.mostrarEmpate();
                     }
+                    
                 }
             }
             
         }
 
+    }
+
+    mostrarEmpate() {
+        let parrafo = document.querySelector(".js-parrafo-turno");
+        parrafo.innerHTML = "¡EMPATE!";
     }
 
     felicitar() {

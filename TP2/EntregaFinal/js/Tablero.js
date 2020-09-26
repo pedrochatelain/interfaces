@@ -16,6 +16,10 @@ class Tablero {
         return this.fichas_colocadas;
     }
 
+    hayEspacio() {
+        return this.fichas_colocadas < this.cantidad_columnas * this.cantidad_filas;
+    }
+
     draw() {
         this.setCeldas();
         this.borrarFondo();
