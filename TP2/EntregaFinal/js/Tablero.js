@@ -25,8 +25,9 @@ class Tablero {
         let y;
         for (let i = 0; i < this.cantidad_columnas; i++) {
             let celda_actual = this.celdas[0][i];
-            x = celda_actual.x + (celda_actual.width / 2);
-            y = celda_actual.y - celda_actual.height;
+            let centro = celda_actual.getCentro();
+            x = centro.x;
+            y = centro.y - celda_actual.height;
             this.rampas.push({
                 "x" : x,
                 "y" : y
@@ -36,24 +37,51 @@ class Tablero {
 
     setCeldas() {
 
-        let padding_left = this.canvas.width * 0.22;
-        let padding_right = this.canvas.width * 0.22;
-        let padding_top = this.canvas.height * 0.15;
-        let cell_width = (this.canvas.width - padding_left - padding_right) / this.cantidad_columnas;
-        let cell_height = (this.canvas.height - padding_top) / this.cantidad_filas;
+        let padding = this.canvas.width / 5;
+        let padding_top = this.canvas.height / 6;
+        let ancho_del_tablero = this.canvas.width - padding - padding;
+        let alto_del_tablero = this.canvas.height - padding_top
+        let cell_width = ancho_del_tablero / this.cantidad_columnas;
+        let cell_height = alto_del_tablero / this.cantidad_filas;
         let celdas = [];
+        let i = 0;
 
         // Define las propiedades de cada celda y las agrupa en un arreglo
-        for (let columna = padding_top; columna < canvas.height; columna += cell_height) {
-            for (let fila = padding_left; fila < canvas.width - padding_right; fila += cell_width) {
-                let celda = new Celda(fila, columna, cell_width, cell_height, this.context)
-                    celdas.push(celda);
-                }
+        for (let x = padding; i < this.cantidad_columnas; x += cell_width) {
+            for (let y = padding_top; y < this.canvas.height; y += cell_height) {
+                let celda = new Celda(x, y, cell_width, cell_height, this.context)
+                celdas.push(celda)
+            }
+            i++;
         }
 
+        
         // Coloca las celdas dentro de una matriz (para poder acceder por fila y columna) 
-        this.celdas = this.listToMatrix(celdas, this.cantidad_columnas)
+        this.celdas = this.toMatrix(celdas)
+    }
 
+    borrar() {
+        this.context.clearRect(0, 0, canvas.width, canvas.height);
+
+    }
+
+    toMatrix(celdas) {
+        var matrix = [];
+        for(var i=0; i<this.cantidad_filas; i++) {
+            // matrix[i] = new Array(this.cantidad_columnas);
+            matrix[i] = [];
+        }
+
+        let iteraciones = 0;
+        for (let i = 0; i < celdas.length; i++) {
+            matrix[iteraciones].push(celdas[i]);
+            if (iteraciones == this.cantidad_filas - 1) {
+                iteraciones = 0;
+            } else {
+                iteraciones++;
+            }
+        }
+        return matrix;
     }
 
     dibujarCeldas() {
@@ -65,21 +93,6 @@ class Tablero {
                 celda_actual.draw();
             }
         }
-    }
-
-    listToMatrix(list, elementsPerSubArray) {
-        var matrix = [], i, k;
-    
-        for (i = 0, k = -1; i < list.length; i++) {
-            if (i % elementsPerSubArray === 0) {
-                k++;
-                matrix[k] = [];
-            }
-    
-            matrix[k].push(list[i]);
-        }
-    
-        return matrix;
     }
 
     isFichaEnRampa(ficha) {
@@ -186,48 +199,51 @@ class Tablero {
             if (orientacion === "Izquierda") {
                 j = columna_celda - 1
                 condicion = j >= 0;
-                celda_actual = this.celdas[fila_celda][j];
             }
             if (orientacion === "Derecha") {
                 j = columna_celda + 1;
                 condicion = j < this.cantidad_columnas;
-                celda_actual = this.celdas[fila_celda][j];
             }
             if (orientacion === "Abajo") {
                 i = fila_celda + 1;
                 condicion = i < this.cantidad_filas;
-                celda_actual = this.celdas[i][columna_celda];
             }
             if (orientacion === "Izquierda abajo") {
                 i = fila_celda + 1;
                 j = columna_celda - 1;
                 condicion = i < this.cantidad_filas;
-                celda_actual = this.celdas[i][j];
             }
             if (orientacion === "Izquierda arriba") {
                 i = fila_celda - 1;
                 j = columna_celda - 1;
-                condicion = i < this.cantidad_filas;
-                celda_actual = this.celdas[i][j];
+                condicion = i < this.cantidad_filas;                
             }
             if (orientacion === "Derecha abajo") {
                 i = fila_celda + 1;
                 j = columna_celda + 1;
-                condicion = i < this.cantidad_filas;
-                celda_actual = this.celdas[i][j];
+                condicion = i < this.cantidad_filas;               
             }
             if (orientacion === "Derecha arriba") {
                 i = fila_celda - 1;
                 j = columna_celda + 1;
-                condicion = i < this.cantidad_filas;
-                celda_actual = this.celdas[i][j]
+                condicion = i < this.cantidad_filas;               
             }
 
             while (condicion && racha != linea_ganadora - 1) {
+
+                if (orientacion === "Izquierda") { celda_actual = this.celdas[fila_celda][j]; }
+                if (orientacion === "Derecha") { celda_actual = this.celdas[fila_celda][j]; }
+                if (orientacion === "Abajo") { celda_actual = this.celdas[i][columna_celda]; }
+                if (orientacion === "Izquierda abajo") { celda_actual = this.celdas[i][j]; }
+                if (orientacion === "Izquierda arriba") { celda_actual = this.celdas[i][j]; }
+                if (orientacion === "Derecha abajo") { celda_actual = this.celdas[i][j]; }
+                if (orientacion === "Derecha arriba") { celda_actual = this.celdas[i][j]; }
+
                 if (celda_actual.getFicha() == null) {
                     return false;
                 }
                 let jugador_celda_actual = celda_actual.getFicha().getJugador();
+                console.log(celda_actual)
                 if (jugador !== jugador_celda_actual) {
                     return false;
                 } else {
@@ -251,20 +267,27 @@ class Tablero {
 
     // Devuelve la cantidad de celdas que hay en una dirección dada (la búsqueda parte desde otra celda)
     cantCeldas(orientacion, celda, self) {
-        tablero = self;
-        if (orientacion === "Izquierda") { return celda.getColumna(); }
-        if (orientacion === "Derecha") { return (tablero.celdas[0].length - 1) - celda.getColumna(); }
-        if (orientacion === "Abajo") { return (tablero.celdas.length - 1) - celda.getFila() }
+        let tablero = self;
+        if (orientacion === "Izquierda") {
+            return celda.getColumna(); }
+        if (orientacion === "Derecha") {
+            return (tablero.celdas[0].length - 1) - celda.getColumna();
+        }
+        if (orientacion === "Abajo") {
+            console.log("tablero.celdas.length = "+tablero.celdas.length)
+            console.log(tablero.celdas.length - 1 - celda.getFila())
+            return (tablero.celdas.length - 1) - celda.getFila()
+        }
         if (orientacion === "Izquierda abajo") { 
             return tablero.checkDiagonal(celda, 0, tablero.cantidad_filas - 1, "Incrementar", "Decrementar");
         }
-        if (orientacion === "Izquierda arriba") { 
+        if (orientacion === "Izquierda arriba") {
             return tablero.checkDiagonal(celda, 0, 0, "Decrementar", "Decrementar");
         }
-        if (orientacion === "Derecha abajo") { 
+        if (orientacion === "Derecha abajo") {
             return tablero.checkDiagonal(celda, tablero.cantidad_columnas - 1, tablero.cantidad_filas - 1, "Incrementar", "Incrementar");
         }
-        if (orientacion === "Derecha arriba") { 
+        if (orientacion === "Derecha arriba") {
             return tablero.checkDiagonal(celda, tablero.cantidad_columnas - 1, 0, "Decrementar", "Incrementar");
         }
     }

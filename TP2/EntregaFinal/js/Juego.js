@@ -9,7 +9,8 @@ class Juego {
         this.jugador2 = jugador2;
         this.hayGanador = false;
         this.jugador_actual = this.jugador1;
-        this.linea_ganadora = 2; // Define cuántas fichas consecutivas tiene que haber para ganar
+        this.linea_ganadora = 4; // Define cuántas fichas consecutivas tiene que haber para ganar
+        tablero.draw();
     }
 
     jugar() {
@@ -19,7 +20,6 @@ class Juego {
         let offset = {}
         let tablero = this.tablero;
 
-        tablero.draw()
 
         juego.dibujarFichas()
 
@@ -139,7 +139,7 @@ class Juego {
 
     
     reDraw(ficha) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         ficha.draw(ficha.getX(), ficha.getY())
         this.fichas.forEach(ficha => {
             let x = ficha.getX();
@@ -147,6 +147,5 @@ class Juego {
             ficha.draw(x, y);
         });
     }
-
 
 }

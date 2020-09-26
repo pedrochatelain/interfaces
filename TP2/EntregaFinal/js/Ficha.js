@@ -19,7 +19,7 @@ class Ficha {
     draw(x, y) {
         // this.image.onload = function() {
             this.context.beginPath();
-            let pat = context.createPattern(this.image,'repeat');
+            let pat = this.context.createPattern(this.image,'repeat');
             this.context.arc(x, y, this.radio, 0, Math.PI * 2);
             this.context.fillStyle = pat
             this.context.fill();

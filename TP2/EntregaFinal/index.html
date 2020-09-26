@@ -9,10 +9,29 @@
 <body>
 
     <div class="canvas-holder">
-        <canvas class="js-canvas canvas" width="1200px" height="600px"> </canvas>
-        <canvas class="js-canvas-tablero canvas-tablero" width="1200px" height="600px"> </canvas>
-
+        <canvas class="js-canvas canvas" width="1000px" height="500px"> </canvas>
+        <canvas class="js-canvas-tablero canvas-tablero" width="1000px" height="500px"> </canvas>
+        <canvas class="canvas-background" width="1000px" height="500px"> </canvas>
     </div>
+
+    <!-- Trigger/Open The Modal -->
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    Defina dimensiones del tablero
+    <button class="close js-aceptar">Jugar</button>
+    <select class="js-dimensiones">
+        <option value="6x7">6x7</option>
+        <option value="6x8">6x8</option>
+        <option value="7x7">7x7</option>
+        <option value="7x9">7x9</option>
+      </select>
+  </div>
+
+</div>
 
     <script src="js/Celda.js"></script>
     <script src="js/Juego.js"></script>
