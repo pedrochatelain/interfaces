@@ -10,6 +10,8 @@ class Tablero {
         this.fichas_colocadas = 0;
         this.ancho_del_tablero;
         this.alto_del_tablero;
+        this.padding = this.canvas.width / 4.5;
+        this.padding_top = this.canvas.height / 5;
     }
 
     getCantFichas() {
@@ -24,38 +26,47 @@ class Tablero {
         this.setCeldas();
         this.borrarFondo();
         this.dibujarCeldas();
-        this.definirRampas();
+        this.context.fillStyle = "#ffd103";
+        this.context.fillRect(this.padding, this.padding_top, this.ancho_del_tablero, this.alto_del_tablero);
+        this.setZonasAceptacion();
     }
-    
-    definirRampas() {
-        let x;
-        let y;
-        for (let i = 0; i < this.cantidad_columnas; i++) {
-            let celda_actual = this.celdas[0][i];
-            let centro = celda_actual.getCentro();
-            x = centro.x;
-            y = centro.y - celda_actual.height - 23;
-            this.rampas.push({
-                "x" : x,
-                "y" : y
-            })
+
+    setZonasAceptacion() {
+        let self = this;
+        let arrow_image = document.createElement("img");
+        arrow_image.src = "img/arrow.png";
+        arrow_image.onload = e => {
+        arrow_image.width = 30;
+        arrow_image.height = 30;
+        let image = arrow_image
+            for (let i = 0; i < self.cantidad_columnas; i++) {
+                let celda_actual = self.celdas[0][i];
+                let centro = celda_actual.getCentro();
+                let top_left_image = {
+                    'x' : centro.x - image.width / 2,
+                    'y' : centro.y - self.padding_top
+                }
+                self.context.drawImage(image, top_left_image.x, top_left_image.y, image.width, image.height);
+                let array =
+                    [{'x' : top_left_image.x + image.width / 2, 'y' : top_left_image.y},
+                    {'x' : top_left_image.x + image.width / 2, 'y' : top_left_image.y + image.height / 2},
+                    {'x' : top_left_image.x + image.width / 2, 'y' : top_left_image.y + image.height}]
+                self.rampas.push(array)
+            }
         }
     }
 
     setCeldas() {
-
-        let padding = this.canvas.width / 5;
-        let padding_top = this.canvas.height / 6;
-        this.ancho_del_tablero = this.canvas.width - padding - padding;
-        this.alto_del_tablero = this.canvas.height - padding_top
+        this.ancho_del_tablero = this.canvas.width - this.padding - this.padding;
+        this.alto_del_tablero = this.canvas.height - this.padding_top
         let cell_width = this.ancho_del_tablero / this.cantidad_columnas;
         let cell_height = this.alto_del_tablero / this.cantidad_filas;
         let celdas = [];
         let i = 0;
 
         // Define las propiedades de cada celda y las agrupa en un arreglo
-        for (let x = padding; i < this.cantidad_columnas; x += cell_width) {
-            for (let y = padding_top; y < this.canvas.height; y += cell_height) {
+        for (let x = this.padding; i < this.cantidad_columnas; x += cell_width) {
+            for (let y = this.padding_top; y < this.canvas.height; y += cell_height) {
                 let celda = new Celda(x, y, cell_width, cell_height, this.context)
                 celdas.push(celda)
             }
@@ -107,8 +118,10 @@ class Tablero {
         circle.arc(ficha.getX(), ficha.getY(), ficha.radio, 0, Math.PI * 2)
         for (let i = 0; i < this.rampas.length; i++) {
             let rampa_actual = this.rampas[i];
-            if(this.context.isPointInPath(circle, rampa_actual.x, rampa_actual.y)) {
-                return true;
+            for (let j = 0; j < rampa_actual.length; j++) {
+                if(this.context.isPointInPath(circle, rampa_actual[j].x, rampa_actual[j].y)) {
+                    return true;
+                }
             }
         }
         return false
@@ -119,8 +132,10 @@ class Tablero {
         circle.arc(ficha.getX(), ficha.getY(), ficha.radio, 0, Math.PI * 2)
         for (let i = 0; i < this.rampas.length; i++) {
             let rampa_actual = this.rampas[i];
-            if(this.context.isPointInPath(circle, rampa_actual.x, rampa_actual.y)) {
-                return i;
+            for (let j = 0; j < rampa_actual.length; j++) {
+                if(this.context.isPointInPath(circle, rampa_actual[j].x, rampa_actual[j].y)) {
+                    return i;
+                }
             }
         }
         return false
@@ -272,7 +287,9 @@ class Tablero {
     }
 
     borrarFondo() {
-        this.context.fillStyle = "#C19A6B";
+        this.context.fillStyle = "rgba(255, 255, 255, 0.35)";
+        // ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

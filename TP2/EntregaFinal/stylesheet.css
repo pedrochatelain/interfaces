@@ -1,78 +1,140 @@
 body {
+    background-image: url(img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+select, input, body, button {
+    font-family: "Grandstander";
+}
+
+input {
+    font-size: 24px;
+}
+
+.canvas-holder{
     display: grid;
-    height: 100vh;
-    margin: 0;
+    width: 100%;
+    height: 500px;
+    justify-self: center;
+}
+
+.canvas, .canvas-tablero {
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
 }
 
 .canvas {
-    position: absolute;
-    justify-self: center;
-    border: 1px solid black;
+    justify-self: center; 
     z-index: 1;
     align-self: center;
 }
 
 .canvas-tablero {
-    position: absolute;
     z-index: 0;
     justify-self: center;
-    align-self: center;
-
 }
 
 .hidden {
-    display: none;
+    display: none !important; 
 }
 
 .turno {
+    background: rgba(255, 255, 255, 0.35);
+    width: fit-content;
     font-size: 30px;
     text-align: center;
-    margin-bottom: 10%;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 14px;
+    border-radius: 50px;
 }
 
-.canvas-holder{
+.presentacion-juego {
     display: grid;
-    position: relative;
-}
-
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
+    align-self: center;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5%;
+    height: fit-content;
+    width: 500px;
+    margin-top: 42px;
+    margin-left: auto;
+    margin-right: auto;
   
-  /* Modal Content/Box */
-  .modal-content {
-      background-color: #fefefe;
-      margin: 6% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 40%; /* Could be more or less, depending on screen size */
 }
 
-select, .close, .modal-content {
+.titulo-juego {
+    text-align: center;
+}
+
+.presentacion-juego p {
+    cursor: default;
     font-size: 20px;
+    text-align: center;
+    margin-bottom: 10px;
 }
-select {
-    margin-left: 5%;
+
+.dimensiones-tablero {
+    font-size: 28px;
+    justify-self: center;
+    width: fit-content;
+    outline: none;
+    border-radius: 40px;
+    padding: 4px;
 }
-/* The Close Button */
-.close {
-    float: right;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
+
+.btn-jugar {
+    font-size: 30px;
+    justify-self: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    height: 40px;
+    width: 60%;
+    border-radius: 40px;
+    outline: none;
     cursor: pointer;
-  }
+}
+
+.presentacion-juego h1 {
+    font-size: 40px;
+    cursor: default;
+
+}
+
+.ayuda-juego p {
+    font-size: 24px;
+    padding-bottom: 4%;
+}
+
+.ayuda-juego {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.separador {
+    background-image: linear-gradient(to right, black, gray);
+    height: 4px;
+    width: 100%;
+}
+
+.input-player {
+    justify-self: center;
+    width: 50%;
+    height: 25px;
+    border-radius: 40px;
+    outline: none;
+    text-align: center;
+}
+
+@keyframes shake {
+    0% { margin-left: 0rem; }
+    25% { margin-left: 0.5rem; }
+    75% { margin-left: -0.5rem; }
+    100% { margin-left: 0rem; }
+}
+
+.error-name {
+    animation: shake 0.2s ease-in-out 0s 2;
+    box-shadow: 0 0 0.5em red
+}

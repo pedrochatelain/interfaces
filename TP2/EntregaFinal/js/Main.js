@@ -1,27 +1,37 @@
 function init() {
-  preguntarDimensiones();
   let select = document.querySelector(".js-dimensiones");
-  let boton_aceptar = document.querySelector(".js-aceptar");
-  let dimensiones = [];
+  let btn_jugar = document.querySelector(".js-btn-jugar");
   let juego = null;
   let canvas = document.querySelector(".js-canvas");
   let context = canvas.getContext("2d");
   let canvas_tablero = document.querySelector(".js-canvas-tablero");
   let context_canvas_tablero = canvas_tablero.getContext("2d");
-  let tablero = new Tablero(canvas_tablero, context_canvas_tablero, 6, 7);
-  tablero.draw();
+  let dimensiones = getDimensiones();
+  let tablero = new Tablero(canvas_tablero, context_canvas_tablero, dimensiones[0], dimensiones[1])
 
   select.addEventListener("change", function() {
     dimensiones = getDimensiones();
     tablero = new Tablero(canvas_tablero, context_canvas_tablero, dimensiones[0], dimensiones[1])
-    tablero.borrarFondo();
-    tablero.draw()
   });
-  boton_aceptar.addEventListener("click", function() {
-    juego = new Juego(canvas, context, tablero, "Jugador 1", "Jugador 2");
-    let radio_ficha = tablero.celdas[0][0].width / 3;
-    agregarFichas(juego, radio_ficha, context);
-    juego.jugar();
+
+  btn_jugar.addEventListener("click", function() {
+    let jugadorUno = getJugador1().trim();
+    let jugadorDos = getJugador2().trim();  
+    if (checkJugadores(jugadorUno, jugadorDos)) {
+      juego = new Juego(canvas, context, tablero, jugadorUno, jugadorDos);
+      let radio_ficha = tablero.celdas[0][0].width / 2.75;
+      agregarFichas(juego, radio_ficha, context);
+      mostrarJuego();
+      ocultarIntro();
+      juego.jugar();
+    }
+    else {
+      setTimeout(function(){
+        document.querySelector(".js-jugador1").classList.remove("error-name");
+        document.querySelector(".js-jugador2").classList.remove("error-name")
+      }
+      , 1000);
+    }  
   })
 }
 
@@ -29,19 +39,56 @@ document.addEventListener("DOMContentLoaded", init);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function preguntarDimensiones() {
-  // Get the modal
-  let modal = document.getElementById("myModal");
-  // Get the <span> element that closes the modal
-  let span = document.getElementsByClassName("close")[0];
-  // When the page is loaded, open the modal
-  onload = function() {
-    modal.style.display = "block";
+function checkJugadores(player1, player2) {
+  if (isEmptyOrSpaces(player1) && isEmptyOrSpaces(player2)) {
+    document.querySelector(".js-jugador1").classList.add("error-name");
+    document.querySelector(".js-jugador1").value = "";
+    document.querySelector(".js-jugador2").classList.add("error-name");
+    document.querySelector(".js-jugador2").value = "";
+    return false;
   }
-  // When the user clicks on "Aceptar", close the modal
-  span.onclick = function() {
-    modal.style.display = "none";
+  if (isEmptyOrSpaces(player1)) {
+    document.querySelector(".js-jugador1").classList.add("error-name");
+    document.querySelector(".js-jugador1").value = "";
+    return false;
   }
+  if (isEmptyOrSpaces(player2)) {
+    document.querySelector(".js-jugador2").classList.add("error-name");
+    document.querySelector(".js-jugador2").value = "";
+    return false;
+  }
+  if (player1 === player2) {
+    document.querySelector(".js-jugador1").classList.add("error-name");
+    document.querySelector(".js-jugador2").classList.add("error-name");
+    return false;
+  }
+  return true;
+}
+
+function isEmptyOrSpaces(str){
+  return str === null || str.match(/^\s*$/) !== null;
+}
+
+function mostrarJuego() {
+  let canvas = document.querySelector(".js-canvas-holder");
+  canvas.classList.remove("hidden");
+  let turno = document.querySelector(".js-parrafo-turno");
+  turno.classList.remove("hidden");
+}
+
+function ocultarIntro() {
+  let intro = document.querySelector(".js-intro");
+  intro.style = "display: none";
+}
+
+function getJugador1() {
+  let jugador1 = document.querySelector(".js-jugador1").value;
+  return jugador1;
+}
+
+function getJugador2() {
+  let jugador2 = document.querySelector(".js-jugador2").value;
+  return jugador2;
 }
 
 function getDimensiones() {
@@ -61,12 +108,12 @@ function agregarFichas(juego, radio_ficha, context) {
   let fichas = [];
 
   for (let i = 0; i < Math.ceil(cant_celdas / 2); i++) {
-    let ficha_roja = new Ficha(context, radio_ficha, "Jugador 1", "img/red.jpg");
+    let ficha_roja = new Ficha(context, radio_ficha, getJugador1(), "img/red_disc.png");
     fichas.push(ficha_roja)
   }
 
   for (let i = Math.floor(cant_celdas / 2); i < cant_celdas; i++) {
-    let ficha_azul = new Ficha(context, radio_ficha, "Jugador 2", "img/blue_disc.jpg");
+    let ficha_azul = new Ficha(context, radio_ficha, getJugador2(), "img/blue_disc.jpg");
     fichas.push(ficha_azul)
   }
 

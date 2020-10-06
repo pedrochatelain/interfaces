@@ -9,7 +9,7 @@ class Celda {
         this.tieneFicha = false;
         this.ficha = null;
         this.image = new Image();
-        this.image.src = "img/cell_img.png"
+        this.image.src = "img/celda.png"
         this.fila;
         this.columna;
     }

@@ -19,6 +19,8 @@ class Juego {
         let ficha_clickeada;
         let offset = {}
         let tablero = this.tablero;        
+        let x_fichaClickeada;
+        let y_fichaClickeada;
 
         juego.dibujarFichas()
         juego.mostrarTurno()
@@ -28,7 +30,9 @@ class Juego {
             let seClickeoFicha = this.isFichaClickeada(click_position.x, click_position.y)
             if (seClickeoFicha) {
                 ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
-                if (! ficha_clickeada.fueColocadaEnTablero() && ficha_clickeada.getJugador() == this.jugador_actual) {
+                x_fichaClickeada = ficha_clickeada.getX();
+                y_fichaClickeada = ficha_clickeada.getY();
+                if (! ficha_clickeada.fueColocadaEnTablero() && ficha_clickeada.getJugador().trim() == this.jugador_actual.trim()) {
                     this.canvas.addEventListener("mousemove", onMouseMove);
                     this.canvas.addEventListener("mouseup", onMouseUp);
                     // para que no haga drag desde el centro de la ficha defino "offset"
@@ -49,23 +53,17 @@ class Juego {
             }
             return position;
         }
-
-        function onMouseMove(e) {
-            let click_position = getClickPosition(e)
-            let ficha_x_position = click_position.x - offset.x;
-            let ficha_y_position = click_position.y - offset.y;
-            ficha_clickeada.draw(ficha_x_position, ficha_y_position);
-            juego.reDraw(ficha_clickeada);
-        }
     
         function onMouseUp() {
             canvas.removeEventListener("mousemove", onMouseMove);
             canvas.removeEventListener("mouseup", onMouseUp);
+            canvas.removeEventListener("mouseleave", onMouseLeave);
             if (tablero.isFichaEnRampa(ficha_clickeada)) {
                 let columna_ficha = tablero.getColumna(ficha_clickeada)
                 if (tablero.hayLugar(columna_ficha)) {
-                    ficha_clickeada.borrar();
+                    // ficha_clickeada.borrar();
                     tablero.drawFicha(ficha_clickeada);
+                    juego.reDraw();
                     ficha_clickeada.setColocada();
                     if (tablero.hayEspacio()) {
                         if (tablero.hayLinea(ficha_clickeada, juego.linea_ganadora)) {
@@ -80,12 +78,37 @@ class Juego {
                     } else {
                         juego.mostrarEmpate();
                     }
-                    
                 }
             }
-            
+            else {
+                juego.reposition(ficha_clickeada, x_fichaClickeada, y_fichaClickeada)
+            }
         }
 
+        function onMouseMove(e) {
+            juego.canvas.addEventListener("mouseleave", onMouseLeave);
+            let click_position = getClickPosition(e)
+            let ficha_x_position = click_position.x - offset.x;
+            let ficha_y_position = click_position.y - offset.y;
+            ficha_clickeada.draw(ficha_x_position, ficha_y_position);
+            juego.reDraw();
+        }
+
+        function onMouseLeave() {
+            juego.reposition(ficha_clickeada, x_fichaClickeada, y_fichaClickeada)
+            canvas.removeEventListener("mousemove", onMouseMove);
+            canvas.removeEventListener("mouseup", onMouseUp);
+        }
+
+    }
+
+    reposition(ficha, x, y) {
+        ficha.draw(x, y);
+        this.reDraw();
+    }
+
+    isPointerOut(e) {
+        return e.target !== this.canvas;
     }
 
     mostrarEmpate() {
@@ -95,7 +118,7 @@ class Juego {
 
     felicitar() {
         let parrafo = document.querySelector(".js-parrafo-turno");
-        if (this.jugador_actual == "Jugador 1") {
+        if (this.jugador_actual == this.jugador1) {
             parrafo.style = "color : red";
         } else {
             parrafo.style = "color: blue";
@@ -150,10 +173,10 @@ class Juego {
     mostrarTurno() {
         let span = document.querySelector(".js-turno");
         let parrafo = document.querySelector(".js-parrafo-turno");
-        if (this.jugador_actual == "Jugador 1") {
-            span.innerHTML = this.jugador_actual + " (fichas rojas)";
+        if (this.jugador_actual == this.jugador1) {
+            span.innerHTML = this.jugador1 + " (fichas rojas)";
         } else {
-            span.innerHTML = this.jugador_actual + " (fichas azules)";
+            span.innerHTML = this.jugador2 + " (fichas azules)";
         }
         parrafo.classList.remove("hidden");
     }
@@ -178,9 +201,8 @@ class Juego {
     }
 
     
-    reDraw(ficha) {
+    reDraw() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // ficha.draw(ficha.getX(), ficha.getY())
         this.fichas.forEach(ficha => {
             let x = ficha.getX();
             let y = ficha.getY();

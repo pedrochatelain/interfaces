@@ -25,7 +25,7 @@ class Ficha {
             self.context.fillStyle = pat
             self.context.fill();
             self.context.closePath();
-            self.context.lineWidth = 1;
+            self.context.lineWidth = 3;
             self.context.strokeStyle = "#000000";
             self.context.stroke();
         };
@@ -40,7 +40,7 @@ class Ficha {
             this.context.fillStyle = pat
             this.context.fill();
             this.context.closePath();
-            this.context.lineWidth = 1;
+            this.context.lineWidth = 3;
             this.context.strokeStyle = "#000000";
             this.context.stroke();
             this.posicionX = x;
@@ -79,10 +79,10 @@ class Ficha {
     borrar() {
         this.context.beginPath();
         this.context.arc(this.posicionX, this.posicionY, this.radio, 0, Math.PI * 2);
-        this.context.fillStyle = "#C19A6B"
+        this.context.fillStyle = "rgba(255, 255, 255, 0.2)"
         this.context.fill();
         this.context.lineWidth = 3;
-        this.context.strokeStyle = "#C19A6B";
+        this.context.strokeStyle = "rgba(255, 255, 255, 0.2)";
         this.context.stroke();
     
         this.context.closePath();

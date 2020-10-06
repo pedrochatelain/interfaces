@@ -5,32 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TP2</title>
     <link rel="stylesheet" href="stylesheet.css">    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grandstander">
 </head>
 <body>
-    <div class="canvas-holder">
-        <p class="js-parrafo-turno turno hidden">Es el turno de <span class="js-turno"></span></p>
-        <canvas class="js-canvas canvas" width="1000px" height="500px"> </canvas>
-        <canvas class="js-canvas-tablero canvas-tablero" width="1000px" height="500px"> </canvas>
+    <p class="js-parrafo-turno turno hidden">Es el turno de <span class="js-turno"></span></p>
+    <div class="js-canvas-holder canvas-holder hidden">
+        <canvas class="js-canvas canvas"  width="1000px" height="500px"> </canvas>
+        <canvas class="js-canvas-tablero canvas-tablero"  width="1000px" height="500px"> </canvas>
     </div>
 
-    <!-- Trigger/Open The Modal -->
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    Defina dimensiones del tablero
-    <button class="close js-aceptar">Jugar</button>
-    <select class="js-dimensiones">
-        <option value="6x7">6x7</option>
-        <option value="6x8">6x8</option>
-        <option value="7x8">7x7</option>
-        <option value="7x9">7x9</option>
-      </select>
-  </div>
-
-</div>
+    <div class="js-intro presentacion-juego">
+        <h1 class="titulo-juego">4 en línea</h1>
+        <div class="separador"></div>
+        <div class="ayuda-juego">
+            <p>¡Arrastre fichas encima de la flecha (<span class="arrow"><img src="img/arrow.png" width="30px"></span>) para colocarlas en el tablero!</p>
+        </div>
+        <div class="separador"></div>
+        <p>Jugador 1: </p>
+        <input type="text" class="input-player js-jugador1">
+        <p>Jugador 2: </p>
+        <input type="text" class="input-player js-jugador2">
+        <p>Tamaño del tablero</p>
+        <select class="dimensiones-tablero js-dimensiones">
+            <option value="6x7">6x7</option>
+            <option value="6x8">6x8</option>
+            <option value="7x8">7x8</option>
+            <option value="7x9">7x9</option>
+        </select>
+        <button class="js-btn-jugar btn-jugar">Jugar!</button>
+    </div>
 
     <script src="js/Celda.js"></script>
     <script src="js/Juego.js"></script>
