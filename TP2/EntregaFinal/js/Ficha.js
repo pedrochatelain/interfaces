@@ -16,23 +16,6 @@ class Ficha {
         return this.jugador;
     }
 
-    draw_first_time(x, y) {
-        let self = this;
-        this.image.onload = e => {
-            let pat = self.context.createPattern(self.image,'repeat');
-            self.context.beginPath();
-            self.context.arc(x, y, this.radio, 0, Math.PI * 2);
-            self.context.fillStyle = pat
-            self.context.fill();
-            self.context.closePath();
-            self.context.lineWidth = 3;
-            self.context.strokeStyle = "#000000";
-            self.context.stroke();
-        };
-        this.posicionX = x;
-        this.posicionY = y;
-    }
-
     draw(x, y) {
         let pat = this.context.createPattern(this.image,'repeat');
             this.context.beginPath();

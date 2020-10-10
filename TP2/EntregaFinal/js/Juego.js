@@ -151,14 +151,14 @@ class Juego {
             let ficha = this.fichas[i];
             let x_random = randomNumber(ficha.radio, this.canvas.width / 6)
             let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
-            ficha.draw_first_time(x_random, y_random)
+            ficha.draw(x_random, y_random)
         }
 
         for (let i = this.fichas.length / 2; i < this.fichas.length; i++) {
             let ficha = this.fichas[i];
             let x_random = randomNumber(this.canvas.width / 1.2, this.canvas.width / 1.05)
             let y_random = randomNumber(this.canvas.height / 3, this.canvas.height - ficha.radio)
-            ficha.draw_first_time(x_random, y_random)
+            ficha.draw(x_random, y_random)
         }
     }
 
@@ -203,6 +203,14 @@ class Juego {
     
     reDraw() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // for (let i = this.fichas.length - 1; i > -1; i--) {
+        //     let ficha = this.fichas[i];
+        //     let x = ficha.getX();
+        //     let y = ficha.getY();
+        //     ficha.draw(x, y);
+        // }
+
         this.fichas.forEach(ficha => {
             let x = ficha.getX();
             let y = ficha.getY();
