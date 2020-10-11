@@ -15,13 +15,14 @@ function init() {
   });
 
   btn_jugar.addEventListener("click", function() {
+    let tablero = new Tablero(canvas_tablero, context_canvas_tablero, dimensiones[0], dimensiones[1]);
     let jugadorUno = getJugador1().trim();
     let jugadorDos = getJugador2().trim();  
     if (checkJugadores(jugadorUno, jugadorDos)) {
       juego = new Juego(canvas, context, tablero, jugadorUno, jugadorDos);
       let radio_ficha = tablero.celdas[0][0].width / 2.75;
       agregarFichas(juego, radio_ficha, context);
-      mostrarJuego();
+      mostrarJuego(juego);
       ocultarIntro();
       juego.jugar();
     }
@@ -69,16 +70,44 @@ function isEmptyOrSpaces(str){
   return str === null || str.match(/^\s*$/) !== null;
 }
 
-function mostrarJuego() {
+function mostrarJuego(juego) {
   let canvas = document.querySelector(".js-canvas-holder");
   canvas.classList.remove("hidden");
   let turno = document.querySelector(".js-parrafo-turno");
   turno.classList.remove("hidden");
+  let restart_button = document.querySelector(".js-restart");
+  restart_button.classList.remove("hidden");
+  restart_button.addEventListener("click", function() { reiniciar(juego) });
+}
+
+function reiniciar(juego) {
+  let canvas = juego.canvas;
+  juego.borrarFichas()
+  juego.tablero.borrarFondo()
+  juego.context.clearRect(0, 0, canvas.width, canvas.height)
+  ocultarJuego();
+  mostrarIntro();
+}
+
+function ocultarJuego() {
+  let canvas = document.querySelector(".js-canvas-holder");
+  canvas.classList.add("hidden");
+  let turno = document.querySelector(".js-parrafo-turno");
+  turno.classList.add("hidden");
+  let restart_button = document.querySelector(".js-restart");
+  restart_button.classList.add("hidden");
+  let winner_paragraph = document.querySelector(".js-ganador");
+  winner_paragraph.classList.add("hidden");
 }
 
 function ocultarIntro() {
   let intro = document.querySelector(".js-intro");
   intro.style = "display: none";
+}
+
+function mostrarIntro() {
+  let intro = document.querySelector(".js-intro");
+  intro.style = "display: grid";
 }
 
 function getJugador1() {

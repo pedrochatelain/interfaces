@@ -12,6 +12,14 @@ class Juego {
         this.linea_ganadora = 4; // Define cuántas fichas consecutivas tiene que haber para ganar
         tablero.draw();
     }
+
+    borrarFichas() {
+        this.fichas = [];
+    }
+
+    getTablero() {
+        return this.tablero;
+    }
     
     jugar() {
         let juego = this;
@@ -28,6 +36,7 @@ class Juego {
         this.canvas.addEventListener("mousedown", (e) => {
             let click_position = getClickPosition(e);
             let seClickeoFicha = this.isFichaClickeada(click_position.x, click_position.y)
+            console.log(seClickeoFicha)
             if (seClickeoFicha) {
                 ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
                 x_fichaClickeada = ficha_clickeada.getX();
@@ -112,19 +121,36 @@ class Juego {
     }
 
     mostrarEmpate() {
-        let parrafo = document.querySelector(".js-parrafo-turno");
-        parrafo.innerHTML = "¡EMPATE!";
+        let turno = document.querySelector(".js-parrafo-turno");
+        let winner_paragraph = document.querySelector(".js-ganador");
+        winner_paragraph.innerHTML = "¡EMPATE!";
+        winner_paragraph.classList.remove("hidden");
+        turno.classList.add("hidden");
     }
 
     felicitar() {
+        let winner_paragraph = document.querySelector(".js-ganador");
+        let turno = document.querySelector(".js-parrafo-turno");
+        turno.classList.add("hidden");
+        winner_paragraph.classList.remove("hidden");
+        if (this.jugador_actual == this.jugador1) {
+            winner_paragraph.style = "color : red";
+        } else {
+            winner_paragraph.style = "color: blue";
+        }
+        winner_paragraph.innerHTML = "¡" + this.jugador_actual.toUpperCase() + " HA GANADO!";
+        
+    }
+
+    mostrarTurno() {
+        let span = document.querySelector(".js-turno");
         let parrafo = document.querySelector(".js-parrafo-turno");
         if (this.jugador_actual == this.jugador1) {
-            parrafo.style = "color : red";
+            span.innerHTML = this.jugador1 + " (fichas rojas)";
         } else {
-            parrafo.style = "color: blue";
+            span.innerHTML = this.jugador2 + " (fichas azules)";
         }
-        parrafo.innerHTML = "¡" + this.jugador_actual + " HA GANADO!";
-
+        parrafo.classList.remove("hidden");
     }
 
     finalizar() {
@@ -170,17 +196,6 @@ class Juego {
         this.tablero = tablero;
     }
 
-    mostrarTurno() {
-        let span = document.querySelector(".js-turno");
-        let parrafo = document.querySelector(".js-parrafo-turno");
-        if (this.jugador_actual == this.jugador1) {
-            span.innerHTML = this.jugador1 + " (fichas rojas)";
-        } else {
-            span.innerHTML = this.jugador2 + " (fichas azules)";
-        }
-        parrafo.classList.remove("hidden");
-    }
-
     getFichaClickeada(x, y) {
         for (let i = this.fichas.length-1; i > -1; i--) {
             if (this.fichas[i].isClicked(x, y)) {
@@ -203,13 +218,6 @@ class Juego {
     
     reDraw() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // for (let i = this.fichas.length - 1; i > -1; i--) {
-        //     let ficha = this.fichas[i];
-        //     let x = ficha.getX();
-        //     let y = ficha.getY();
-        //     ficha.draw(x, y);
-        // }
 
         this.fichas.forEach(ficha => {
             let x = ficha.getX();

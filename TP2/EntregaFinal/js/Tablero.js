@@ -10,8 +10,23 @@ class Tablero {
         this.fichas_colocadas = 0;
         this.ancho_del_tablero;
         this.alto_del_tablero;
-        this.padding = this.canvas.width / 4.5;
+        this.padding = this.canvas.width / 4;
         this.padding_top = this.canvas.height / 5;
+    }
+
+    borrarFichas() {
+        console.log(cant)
+        for (let i = 0; i < cant; i++) {
+            let celda = this.celdas[i];
+            console.log(celda)
+            celda.getFicha().borrar();
+        }
+    }
+
+    vaciar() {
+        this.celdas = [];
+        this.rampas = [];
+        this.fichas_colocadas = 0;
     }
 
     getCantFichas() {
@@ -79,7 +94,7 @@ class Tablero {
     }
 
     borrar() {
-        this.context.clearRect(0, 0, canvas.width, canvas.height);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     }
 
@@ -287,9 +302,8 @@ class Tablero {
     }
 
     borrarFondo() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
         this.context.fillStyle = "rgba(255, 255, 255, 0.35)";
-        // ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

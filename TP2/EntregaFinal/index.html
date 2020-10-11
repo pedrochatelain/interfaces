@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grandstander">
 </head>
 <body>
-    <p class="js-parrafo-turno turno hidden">Es el turno de <span class="js-turno"></span></p>
+    <header>
+        <p class="js-parrafo-turno turno hidden">Es el turno de <span class="js-turno"></span></p>
+        <p class="js-ganador turno hidden"></p>
+        <div class="js-restart restart-div hidden">
+            <img src="img/restart.ico" width="30px" height="30px">
+        </div>
+    </header>
     <div class="js-canvas-holder canvas-holder hidden">
-        <canvas class="js-canvas canvas"  width="1000px" height="500px"> </canvas>
-        <canvas class="js-canvas-tablero canvas-tablero"  width="1000px" height="500px"> </canvas>
+        <canvas class="js-canvas canvas" width="1000px" height="500px"> </canvas>
+        <canvas class="js-canvas-tablero canvas-tablero" width="1000px" height="500px"> </canvas>
     </div>
     <div class="js-intro presentacion-juego">
         <h1 class="titulo-juego">4 en línea</h1>
@@ -21,9 +27,9 @@
         </div>
         <div class="separador"></div>
         <p>Jugador 1: </p>
-        <input type="text" class="input-player js-jugador1">
+        <input type="text" class="input-player js-jugador1" maxlength="10">
         <p>Jugador 2: </p>
-        <input type="text" class="input-player js-jugador2">
+        <input type="text" class="input-player js-jugador2" maxlength="10">
         <p>Tamaño del tablero</p>
         <select class="dimensiones-tablero js-dimensiones">
             <option value="6x7">6x7</option>
