@@ -15,10 +15,8 @@ class Tablero {
     }
 
     borrarFichas() {
-        console.log(cant)
         for (let i = 0; i < cant; i++) {
             let celda = this.celdas[i];
-            console.log(celda)
             celda.getFicha().borrar();
         }
     }

@@ -36,7 +36,6 @@ class Juego {
         this.canvas.addEventListener("mousedown", (e) => {
             let click_position = getClickPosition(e);
             let seClickeoFicha = this.isFichaClickeada(click_position.x, click_position.y)
-            console.log(seClickeoFicha)
             if (seClickeoFicha) {
                 ficha_clickeada = this.getFichaClickeada(click_position.x, click_position.y);
                 x_fichaClickeada = ficha_clickeada.getX();
@@ -70,7 +69,6 @@ class Juego {
             if (tablero.isFichaEnRampa(ficha_clickeada)) {
                 let columna_ficha = tablero.getColumna(ficha_clickeada)
                 if (tablero.hayLugar(columna_ficha)) {
-                    // ficha_clickeada.borrar();
                     tablero.drawFicha(ficha_clickeada);
                     juego.reDraw();
                     ficha_clickeada.setColocada();

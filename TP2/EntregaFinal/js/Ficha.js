@@ -18,17 +18,16 @@ class Ficha {
 
     draw(x, y) {
         let pat = this.context.createPattern(this.image,'repeat');
-            this.context.beginPath();
-            this.context.arc(x, y, this.radio, 0, Math.PI * 2);
-            this.context.fillStyle = pat
-            this.context.fill();
-            this.context.closePath();
-            this.context.lineWidth = 3;
-            this.context.strokeStyle = "#000000";
-            this.context.stroke();
-            this.posicionX = x;
-            this.posicionY = y;
-    
+        this.context.beginPath();
+        this.context.arc(x, y, this.radio, 0, Math.PI * 2);
+        this.context.fillStyle = pat
+        this.context.fill();
+        this.context.closePath();
+        this.context.lineWidth = 3;
+        this.context.strokeStyle = "#000000";
+        this.context.stroke();
+        this.posicionX = x;
+        this.posicionY = y;
     }
 
     getX() {
@@ -67,9 +66,7 @@ class Ficha {
         this.context.lineWidth = 3;
         this.context.strokeStyle = "rgba(255, 255, 255, 0.2)";
         this.context.stroke();
-    
         this.context.closePath();
-
     }
 
     setColocada() {
