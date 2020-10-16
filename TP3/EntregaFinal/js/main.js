@@ -3,12 +3,13 @@ window.onbeforeunload = function () {
     window.scrollTo(0, 0);
 }
 
-let characters = document.querySelector(".js-movie-characters");
-let movie_title = document.querySelector(".js-movie-title");
-let clouds = document.querySelector(".js-clouds");
-let cards = document.querySelectorAll(".js-card");
 let hero_section = document.querySelector(".js-hero");
+let clouds = document.querySelector(".js-clouds");
+let movie_title = document.querySelector(".js-movie-title");
+let characters = document.querySelector(".js-movie-characters");
 let cards_section = document.querySelector(".js-cards-section");
+let cards = document.querySelectorAll(".js-card");
+let countdown_section = document.querySelector(".js-countdown");
 
 window.addEventListener("scroll", function() {
     if (isOnScreen(hero_section)) {
@@ -21,11 +22,27 @@ window.addEventListener("scroll", function() {
         if (isOnScreen(cards_section)) {
             showCards();
             checkHoverCards();
-        } else {
-            hideCards()
         }
+        else hideCards();
+
+        if (isOnScreen(countdown_section))
+            showCountdown();
+        else
+            hideCountdown();
     }
 });
+
+function hideCountdown() {
+    countdown_section.classList.remove("opacity-countdown");
+    countdown_section.classList.add("no-opacity");
+    countdown_section.style.opacity = 0;
+}
+
+function showCountdown() {
+    countdown_section.classList.add("opacity-countdown");
+    countdown_section.classList.remove("no-opacity");
+    countdown_section.style.opacity = 1;
+}
 
 // Devuelve true si el elemento se está mostrando en la pantalla
 function isOnScreen(element) {

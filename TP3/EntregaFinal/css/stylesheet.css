@@ -134,14 +134,6 @@ body {
     background-image: url(../images/gandalf.png);
 }
 
-@keyframes beating {
-    0% { transform: scale( 1.2 ); }
-    5% { transform: scale(1.2); }
-    45% { transform: scale(1.1); }
-    75% { transform: scale(1.1); }
-    100% { transform: scale( 1 ); }
-}
-
 @keyframes opacity {
     0% { opacity: 0; }
     100% { opacity: 1; }
@@ -159,6 +151,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     margin-right: auto;
     margin-left: auto;
+    margin-top: 50vh;
     height: fit-content;
     height: 100%;
     width: 70%;
@@ -166,11 +159,20 @@ body {
     font-size: 10vw;
 }
 
+.opacity-countdown {
+    animation: opacity 2s linear;
+}
+
+.no-opacity {
+    opacity: 0;
+}
+
 .countdown div p:last-child {
     font-size: 20%;
 }
 
 .countdown p:first-child {
+    margin-top: 0;
     margin-bottom: 6%;
     grid-column: 1 / -1;
 }
@@ -196,4 +198,12 @@ body {
 
 .seconds div {
     animation: beating 1s linear infinite;
+}
+
+@keyframes beating {
+    0% { transform: scale( 1.2 ); }
+    5% { transform: scale(1.2); }
+    45% { transform: scale(1.1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale( 1 ); }
 }
