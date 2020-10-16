@@ -27,6 +27,7 @@ window.addEventListener("scroll", function() {
     }
 });
 
+// Devuelve true si el elemento se está mostrando en la pantalla
 function isOnScreen(element) {
     var rect = element.getBoundingClientRect();
     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
@@ -144,7 +145,6 @@ function handleMove(e, el) {
   } else {
     var yRotation = 20*((x - width / 2) / width)
   }
-  console.log(yRotation)
 
   /* Calculate the rotation along the X-axis */
   const xRotation = -10 * ((y - height / 2) / height)
