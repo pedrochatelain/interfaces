@@ -3,9 +3,9 @@ body, html {
     margin: 0;
 }
 
-html {
+/* html {
     scroll-behavior: smooth;
-}
+} */
 
 @font-face {
     font-family: myFirstFont;
@@ -70,14 +70,22 @@ body {
 }
 
 .division {
-    height: 80vh;
+    margin-top: 6%;
+    margin-bottom: 6%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 12px;
+    background-image: url(../images/elven.png);
+    background-size: contain;
+    background-repeat: repeat-x;
+    border-top: 1px inset black;
+    border-bottom: 1px inset black;
+    width: 100%;
+    opacity: 0.4;
 }
 
 .cards-section {
     margin-top: 400px;
-    /* margin-bottom: 200px; */
-    /* padding-top: 200px; */
-    /* padding-bottom: 200px; */
     height: fit-content;
     width: fit-content;
     margin-left: auto;
@@ -85,6 +93,7 @@ body {
 }
 
 .card {
+    border-radius: 6px;
     width: 100%;
     display: inline-block;
     height: 80vh;
@@ -144,16 +153,15 @@ body {
     100% { background-position-x: 5440px;}
 }
 
-/*************************   COUNTDOWN   *************************/
+/*************************   Countdown   *************************/
 .countdown {
     display: grid;
     grid-template-rows: repeat(3, fit-content(100%));
     grid-template-columns: repeat(4, 1fr);
     margin-right: auto;
     margin-left: auto;
-    margin-top: 50vh;
+    margin-bottom: 0;
     height: fit-content;
-    height: 100%;
     width: 70%;
     text-align: center;
     font-size: 10vw;
@@ -178,7 +186,8 @@ body {
 }
 
 .countdown p:last-child {
-    margin-top: 6%;
+    margin-top: 20%;
+    margin-bottom: 0;
     grid-row: 3 / -1;
 }
 
@@ -206,4 +215,46 @@ body {
     45% { transform: scale(1.1); }
     75% { transform: scale(1.1); }
     100% { transform: scale( 1 ); }
+}
+
+/*************************   Carousel   *************************/
+.carousel {
+    display: grid;
+    border-radius: 12px;
+    height: 90%;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid black;
+    background-image: url(../images/rings.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.left-arrow, .right-arrow {
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    width: 50px;
+    height: 50px;
+    align-self: center;
+}
+
+.left-arrow:hover, .right-arrow:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.left-arrow {
+    background-image: url(../images/arrow.png);
+    margin-left: 4%;
+    grid-column: 1 / 2;
+}
+
+.right-arrow {
+    background-image: url(../images/arrow-right.png);
+    margin-right: 4%;
+    grid-column: 3 / 4;
+    justify-self: right;
 }

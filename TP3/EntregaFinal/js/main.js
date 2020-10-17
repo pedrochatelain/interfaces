@@ -1,7 +1,7 @@
 // Cuando se refresca la página sube el scroll al tope
-window.onbeforeunload = function () {
-    window.scrollTo(0, 0);
-}
+// window.onbeforeunload = function () {
+//     window.scrollTo(0, 0);
+// }
 
 let hero_section = document.querySelector(".js-hero");
 let clouds = document.querySelector(".js-clouds");
