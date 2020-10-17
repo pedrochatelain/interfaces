@@ -10,6 +10,7 @@ let characters = document.querySelector(".js-movie-characters");
 let cards_section = document.querySelector(".js-cards-section");
 let cards = document.querySelectorAll(".js-card");
 let countdown_section = document.querySelector(".js-countdown");
+let carousel = document.querySelector(".js-carousel");
 
 window.addEventListener("scroll", function() {
     if (isOnScreen(hero_section)) {
@@ -29,8 +30,25 @@ window.addEventListener("scroll", function() {
             showCountdown();
         else
             hideCountdown();
+
+        if (isOnScreen(carousel))
+            showCarousel();
+        else
+            hideCarousel();
     }
 });
+
+function showCarousel() {
+    carousel.classList.add("opacity-countdown");
+    carousel.classList.remove("no-opacity");
+    carousel.style.opacity = 1;
+}
+
+function hideCarousel() {
+    carousel.classList.remove("opacity-countdown");
+    carousel.classList.add("no-opacity");
+    carousel.style.opacity = 0;
+}
 
 function hideCountdown() {
     countdown_section.classList.remove("opacity-countdown");

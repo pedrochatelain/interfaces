@@ -186,9 +186,13 @@ body {
 }
 
 .countdown p:last-child {
-    margin-top: 20%;
+    margin-top: 6%;
     margin-bottom: 0;
     grid-row: 3 / -1;
+}
+
+.p-time {
+    margin-top: 1.4em !important;
 }
 
 .countdown p:last-child,    .countdown p:first-child {
@@ -220,29 +224,40 @@ body {
 /*************************   Carousel   *************************/
 .carousel {
     display: grid;
-    border-radius: 12px;
-    height: 90%;
+    height: 90vh;
+    grid-template-columns: repeat(3, 1fr);
     width: 90%;
-    margin-right: auto;
-    margin-left: auto;
-    border: 1px solid black;
-    background-image: url(../images/rings.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    grid-template-columns: 1fr 1fr 1fr;
+    border-radius: 10px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+    object-fit: cover;
+    width: 100%;
+    height: 90vh;
 }
 
 .left-arrow, .right-arrow {
     background-size: cover;
     background-repeat: no-repeat;
     opacity: 0.8;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     align-self: center;
+    grid-row: 1 / -1;
 }
 
 .left-arrow:hover, .right-arrow:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     cursor: pointer;
 }
 
