@@ -11,12 +11,16 @@ let cards_section = document.querySelector(".js-cards-section");
 let cards = document.querySelectorAll(".js-card");
 let countdown_section = document.querySelector(".js-countdown");
 let carousel = document.querySelector(".js-carousel");
+let nav = document.querySelector(".js-nav");
+let boton_calendario = document.querySelector(".js-calendario");
+let boton_home = document.querySelector(".js-home");
 
 window.addEventListener("scroll", function() {
     if (isOnScreen(hero_section)) {
         showHero();
         checkOpacity(characters);
         checkOpacity(movie_title);
+        checkOpacity(nav);
         hideCards();
     } else {
         hideHero();
@@ -37,6 +41,18 @@ window.addEventListener("scroll", function() {
             hideCarousel();
     }
 });
+
+boton_calendario.addEventListener("click", function() {
+    hideHero();
+    hideCards();
+    hideCountdown();
+    hideCarousel();
+    location.href = "calendario.html";
+})
+
+boton_home.addEventListener("click", function() {
+    location.href = "index.html";
+})
 
 function showCarousel() {
     carousel.classList.add("opacity-countdown");
@@ -73,6 +89,7 @@ function showHero() {
     show(movie_title);
     show(characters);
     show(clouds);
+    show(nav);
 }
 
 function show(element) {
@@ -87,8 +104,10 @@ function hideHero() {
     hide(movie_title);
     hide(characters);
     hide(clouds);
+    hide(nav);
     removeOpacityAnimation(characters);
     removeOpacityAnimation(movie_title);
+    removeOpacityAnimation(nav);
 }
 
 function removeOpacityAnimation(element) {
