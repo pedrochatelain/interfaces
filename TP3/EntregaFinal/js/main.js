@@ -3,6 +3,10 @@
 //     window.scrollTo(0, 0);
 // }
 
+// let body = document.querySelector("body");
+// body.style.overflow = "hidden"
+// console.log(body)
+
 let hero_section = document.querySelector(".js-hero");
 let clouds = document.querySelector(".js-clouds");
 let movie_title = document.querySelector(".js-movie-title");
@@ -13,7 +17,7 @@ let countdown_section = document.querySelector(".js-countdown");
 let carousel = document.querySelector(".js-carousel");
 let nav = document.querySelector(".js-nav");
 let boton_calendario = document.querySelector(".js-calendario");
-let boton_home = document.querySelector(".js-home");
+const boton_formulario = document.querySelector(".js-formulario")
 
 window.addEventListener("scroll", function() {
     if (isOnScreen(hero_section)) {
@@ -50,8 +54,8 @@ boton_calendario.addEventListener("click", function() {
     location.href = "calendario.html";
 })
 
-boton_home.addEventListener("click", function() {
-    location.href = "index.html";
+boton_formulario.addEventListener("click", function() {
+    location.href = "formulario.html";
 })
 
 function showCarousel() {

@@ -1,4 +1,5 @@
 const boton_home = document.querySelector(".js-home");
+const boton_formulario = document.querySelector(".js-formulario")
 const eventos = document.querySelectorAll(".evento");
 const cards = document.querySelectorAll(".calendar-image");
 console.log(cards)
@@ -7,6 +8,9 @@ boton_home.addEventListener("click", function() {
     location.href = "index.html";
 })
 
+boton_formulario.addEventListener("click", function() {
+  location.href = "formulario.html";
+})
 
 for (let i = 0; i < eventos.length; i++) {
     let evento = eventos[i];
