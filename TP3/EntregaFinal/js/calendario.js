@@ -49,55 +49,23 @@ function checkHoverCards() {
 
 
 
-/*
-* Add a listener for mousemove event
-* Which will trigger function 'handleMove'
-* On mousemove
-*/
-
-/* Define function a */
 function handleMove(e, el) {
+
   /* Get the height and width of the element */
-  let height = cards[0].clientHeight
-  let width = cards[0].width;
-/*
-* Get position of mouse cursor
-  * With respect to the element
-  * On mouseover
-  */
- /* Store the x position */
- const xVal = e.layerX
- /* Store the y position */
- const yVal = e.layerY
+  let width = cards[0].clientWidth
 
- var rect = e.target.getBoundingClientRect();
- var x = e.clientX - rect.left; //x position within the element.
- var y = e.clientY - rect.top;  //y position within the element.
+  var rect = e.target.getBoundingClientRect();
+  var x = e.clientX - rect.left; //x position within the element.
 
+  if (x > width / 2) {
+      var yRotation = 10*((x + width / 2) / width)
+  } else {
+      var yRotation = 20*((x - width / 2) / width)
+  }
 
-//    let xAxis = (width / 2 - x) / 5;
-//    let yAxis = (height / 2 - y) / 5;
- /*
- * Calculate rotation valuee along the Y-axis
- * Here the multiplier 20 is to
- * Control the rotation
- * You can change the value and see the results
- */
-if (x > width / 2) {
-    var yRotation = 10*((x + width / 2) / width)
-} else {
-  var yRotation = 20*((x - width / 2) / width)
-}
+  /* Generate string for CSS transform property */
+  const string = 'perspective(500px) scale(1.1)  rotateY(' + yRotation + 'deg)'
 
-/* Calculate the rotation along the X-axis */
-const xRotation = -10 * ((y - height / 2) / height)
-  // xRotation = yAxis
-  // yRotation = xAxis
-
-/* Generate string for CSS transform property */
-const string = 'perspective(500px) scale(1.1)  rotateY(' + yRotation + 'deg)'
-
-/* Apply the calculated transformation */
-el.style.transform = string
-console.log(width)
+  /* Apply the calculated transformation */
+  el.style.transform = string
 }

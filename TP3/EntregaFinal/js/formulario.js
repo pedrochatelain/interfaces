@@ -46,7 +46,7 @@ function validateEmail(mail)
 }
 
 function isFormValido(email, mensaje) {
-    return (validateEmail(email) && mensaje.value != "");
+    return (validateEmail(email) && mensaje.value.trim() !== "");
 }
 
 function animar(boton) {
